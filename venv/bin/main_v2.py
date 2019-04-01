@@ -16,33 +16,9 @@ def eye_aspect_ratio(eye):
     return ear
 
 def leftEyeDetection(frame, mousex, mousey, arr):
-    """
-    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray_frame = cv2.GaussianBlur(gray_frame, (7, 7), 0)
-    _, threshold = cv2.threshold(gray_frame, 43, 255, cv2.THRESH_BINARY_INV)
-    contours, hierarchy = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-    # avoid small area / noise
-    contours = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
-    for cnt in contours:
-        (x, y, w, h) = cv2.boundingRect(cnt)
-
-        #cv2.drawContours(threshold, [cnt], -1, (0, 0, 255), 3)
-        centerx = x + (w / 2)
-        centery = y + (h / 2)
-        cv2.circle(frame, (int(centerx), int(centery)), 3, (0, 255, 0), 1)
-
-        # make mouse follow the eye
-        #mousex, mousey = MouseFollowTheEye(centerx, centery, mousex, mousey)
-
-        #cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 1)
-        #cv2.line(gray_frame, (x + int(w / 2), 0), (x + int(w / 2), height), (0, 255, 0), 2)
-        #cv2.line(gray_frame, (0, y + int(h / 2)), (width, y + int(h / 2)), (0, 255, 0), 2)
-        break
-    """
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray = cv2.GaussianBlur(gray, (7, 7), 0)
-    _, threshold = cv2.threshold(gray, 33, 255, cv2.THRESH_BINARY_INV)
+    _, threshold = cv2.threshold(gray, 31, 255, cv2.THRESH_BINARY_INV)
     img = cv2.erode(threshold, None, iterations=2)
     img = cv2.dilate(img, None, iterations=4)
     img = cv2.medianBlur(img, 5)
@@ -52,24 +28,14 @@ def leftEyeDetection(frame, mousex, mousey, arr):
     cy = 0
     # --------- checking for 2 contours found or not ----------------#
     if len(contours) == 2:
-        # img = cv2.drawContours(roi, contours, 1, (0,255,0), 3)
-        # ------ finding the centroid of the contour ----------------#
         M = cv2.moments(contours[1])
-        # print M['m00']
-        # print M['m10']
-        # print M['m01']
-
-        (x, y, w, h) = cv2.boundingRect(contours[1])
-        min = w
-        if w > h:
-            min = h
 
         #print("contours:\n", contours[1])
         if M['m00'] != 0:
             cx = int(M['m10'] / M['m00'])
             cy = int(M['m01'] / M['m00'])
+
             cv2.line(frame, (cx, cy), (cx, cy), (0, 0, 255), 3)
-            #cv2.circle(img, (cx, cy), min, (0, 0, 255), -1)
     # -------- checking for one countor presence --------------------#
     elif len(contours) == 1:
         # img = cv2.drawContours(roi, contours, 0, (0,255,0), 3)
@@ -77,16 +43,10 @@ def leftEyeDetection(frame, mousex, mousey, arr):
         # ------- finding centroid of the countor ----#
         M = cv2.moments(contours[0])
 
-        (x, y, w, h) = cv2.boundingRect(contours[0])
-        min = w
-        if w > h:
-            min = h
-        #print("contours:\n", contours[0])
         if M['m00'] != 0:
             cx = int(M['m10'] / M['m00'])
             cy = int(M['m01'] / M['m00'])
-            # print cx,cy
-            #cv2.circle(img, (cx, cy), min, (0, 0, 255), -1)
+
             cv2.line(frame, (cx, cy), (cx, cy), (0, 0, 255), 3)
     else:
         print("iris not detected")
@@ -191,38 +151,14 @@ def MoveMouse(pupil_pos, mousex, mousey, nsamples):
     return x, y
 
 
-def create_circle(x, y, r, canvasName): #center coordinates, radius
-    x0 = x - r
-    y0 = y - r
-    x1 = x + r
-    y1 = y + r
-    return canvasName.create_oval(x0, y0, x1, y1)
-
-
 pyautogui.FAILSAFE = False
 mousex = -1
 mousey = -1
 thresh = 0.25
 frame_check = 15
-eye_padding = 5
+eye_padding = 3
 
 pupil_pos = []
-"""
-root = Tk()
-root.overrideredirect(True)
-root.overrideredirect(False)
-root.attributes('-fullscreen',True)
-w = root.winfo_width()
-h = root.winfo_height()
-
-canvas = Canvas(width=w, height=h)
-canvas.pack()
-
-#create_circle(0, 0, 20, canvas)
-canvas.create_oval(3, 3, 53, 53)
-canvas.create_oval(3, h - 54, 53, h - 4)
-canvas.create_oval(w - 53, 3, w - 3, 53)
-canvas.create_oval(w - 54, h - 54, w - 4, h - 4)"""
 
 
 # initializing the mouse to the center position
@@ -256,8 +192,6 @@ while True:
         leftEye = shape[rStart:rEnd]
         rightEye = shape[lStart:lEnd]
 
-        print(leftEye)
-
         # left eye capture
         # trying to show just the left end
         LeftEyeArr = [leftEye[0][0], leftEye[3][0], leftEye[1][1], leftEye[4][1]]
@@ -273,9 +207,9 @@ while True:
             flag += 1
             #print (flag)
             if flag >= frame_check:
-                cv2.putText(frame, "****************ALERT!****************", (10, 30),
+                cv2.putText(frame, "****************BLINK!****************", (10, 30),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                cv2.putText(frame, "****************ALERT!****************", (10, 325),
+                cv2.putText(frame, "****************BLINK!****************", (10, 325),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
             # print ("Drowsy")
         else:
