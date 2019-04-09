@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/classes/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/classes/processes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/guifiles/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/image/arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/image/circle.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/EyesTracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EyesTracker.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/bin/main_v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/main_v2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/pip-selfcheck.json" beforeDir="false" afterPath="$PROJECT_DIR$/venv/pip-selfcheck.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,11 +25,41 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/venv/bin/main_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="112" column="19" lean-forward="true" selection-start-line="112" selection-start-column="19" selection-end-line="112" selection-end-column="19" />
+            <state relative-caret-position="50">
+              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
               <folding>
-                <element signature="e#0#34#0" expanded="true" />
+                <element signature="e#0#30#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1392">
+              <caret line="98" column="38" selection-start-line="98" selection-start-column="38" selection-end-line="98" selection-end-column="38" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1491">
+              <caret line="310" column="16" lean-forward="true" selection-start-line="310" selection-start-column="16" selection-end-line="310" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -38,7 +77,38 @@
     <findStrings>
       <find>distance</find>
       <find>thres</find>
+      <find>pyautogui</find>
+      <find>process.</find>
+      <find>pupil_pos</find>
+      <find>update_frame</find>
+      <find>np</find>
+      <find>flag</find>
+      <find>frame_check</find>
+      <find>self.thresh</find>
+      <find>leftEyeDetection</find>
+      <find>eyes_frame</find>
+      <find>LeftEyeArr</find>
+      <find>left</find>
+      <find>Right eye</find>
+      <find>trackLeftEye</find>
+      <find>show</find>
+      <find>track</find>
+      <find>leftEye</find>
+      <find>MouseFollowTheEye</find>
+      <find>lookin</find>
+      <find>getE</find>
+      <find>pos</find>
+      <find>turnOnDirectionArrow</find>
+      <find>getArrowPixmap</find>
+      <find>, color=color_</find>
+      <find>look</find>
+      <find>wid</find>
+      <find>w</find>
     </findStrings>
+    <replaceStrings>
+      <replace>processes.</replace>
+      <replace>eyeArr</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,17 +121,27 @@
         <option value="$PROJECT_DIR$/venv/bin/file.xml" />
         <option value="$PROJECT_DIR$/venv/bin/main_v3.py" />
         <option value="$PROJECT_DIR$/venv/bin/main_v4.py" />
+        <option value="$PROJECT_DIR$/venv/bin/GUI.py" />
+        <option value="$PROJECT_DIR$/venv/bin/graphics.py" />
+        <option value="$PROJECT_DIR$/venv/bin/guifiles/calibrate_window.ui" />
+        <option value="$PROJECT_DIR$/venv/bin/classes/graphics.py" />
+        <option value="$PROJECT_DIR$/venv/bin/classes/__init__.py" />
+        <option value="$PROJECT_DIR$/venv/bin/guifiles/style.css" />
+        <option value="$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui" />
+        <option value="$PROJECT_DIR$/venv/bin/classes/processes.py" />
         <option value="$PROJECT_DIR$/venv/bin/main_v2.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="604" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="100" />
     <option name="y" value="23" />
-    <option name="width" value="836" />
+    <option name="width" value="1340" />
     <option name="height" value="828" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -89,6 +169,27 @@
               <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
               <item name="EyesTracker" type="462c0819:PsiDirectoryNode" />
               <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EyesTracker" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="guifiles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EyesTracker" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="image" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EyesTracker" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -103,11 +204,18 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/bin/guifiles" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/venv/bin/guifiles" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/venv/bin/image" />
+      <recent name="$PROJECT_DIR$/venv/bin/class" />
       <recent name="$PROJECT_DIR$/venv/bin" />
       <recent name="$PROJECT_DIR$/venv/bin/video" />
     </key>
@@ -236,7 +344,14 @@
       <option name="project" value="LOCAL" />
       <updated>1554036777892</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Some problem with detection of iris fixed">
+      <created>1554125748234</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1554125748234</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -249,15 +364,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="604" y="23" width="836" height="828" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="828" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2220859" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2956153" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36956522" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29076087" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3980978" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -313,7 +428,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Project" />
+    <MESSAGE value="Some problem with detection of iris fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some problem with detection of iris fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -377,16 +493,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/bin/main_v3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-442">
-          <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/bin/main_v4.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="367">
@@ -397,12 +503,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/main_v3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/classes/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="31" lean-forward="true" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/image/arrow.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1491">
+          <caret line="310" column="16" lean-forward="true" selection-start-line="310" selection-start-column="16" selection-end-line="310" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1392">
+          <caret line="98" column="38" selection-start-line="98" selection-start-column="38" selection-end-line="98" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/venv/bin/main_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="112" column="19" lean-forward="true" selection-start-line="112" selection-start-column="19" selection-end-line="112" selection-end-column="19" />
+        <state relative-caret-position="50">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>

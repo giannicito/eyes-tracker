@@ -1,72 +1,263 @@
-from scipy.spatial import distance
 from imutils import face_utils
 import imutils
-import dlib
 import cv2
-import numpy
 import pyautogui
-from tkinter import *
+from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.uic import loadUi
+from PyQt5.QtGui import QPixmap, QImage, QTransform, QColor, QPainter, QPen, QBrush
+import classes.processes as processes
+import os
+import sys
+
+class CalibrationWindow(QMainWindow):
+    def __init__(self):
+        super(CalibrationWindow, self).__init__()
+        loadUi(os.path.join("guifiles", "calibration_window.ui"), self)
+        with open(os.path.join("guifiles", "style.css"), "r") as css:
+            self.setStyleSheet(css.read())
+
+        pyautogui.FAILSAFE = False
+
+        # initialize variables
+        self.mousex = -1
+        self.mousey = -1
+        self.frame_check = 15
+        self.eye_padding = 2
+        self.flag = 0
+        self.thresh = 0.25
+        self.pupil_pos = []
+        self.trackLeftEye = False
+
+        self.lshape, self.rshape, self.detector, self.predict = processes.initialize_opencv()
+        self.capture = cv2.VideoCapture(0)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(2)
+
+        self.top = self.down = self.left = self.right = QPixmap(os.path.join(os.path.abspath(os.path.dirname(__file__)), "image", "arrow.png"))
+        self.circle = QPixmap(os.path.join(os.path.abspath(os.path.dirname(__file__)), "image", "circle.png"))
+
+        self.getArrowPixmap(self.top, "top-arrow", degree=-90)
+        self.getArrowPixmap(self.down, "down-arrow", degree=90)
+        self.getArrowPixmap(self.left, "left-arrow", degree=180)
+        self.getArrowPixmap(self.right, "right-arrow", degree=0)
+        self.getArrowPixmap(self.circle, "center-circle", color=QColor(255, 0, 0, 255))
+
+        self.directions_status = [1, 0, 0, 0, 0]
+
+    def getArrowPixmap(self, p, identifier,  degree=0, color=QColor(170, 170, 170, 80)):
+        pixmap = p.copy()
+        if degree != 0:
+            t = QTransform()
+            t.rotate(degree)
+            pixmap = pixmap.transformed(t)
+
+        mask = pixmap.createMaskFromColor(QColor(0, 0, 0), Qt.MaskOutColor)
+
+        pixmap.fill(Qt.transparent)
+        p = QPainter(pixmap)
+        p.setPen(color)
+        p.drawPixmap(pixmap.rect(), mask, mask.rect())
+        p.end()
+        self.display_image(None, identifier, pixmap)
+
+    def turnOnDirectionArrow(self, p, identifier,  degree=0):
+        #update status
+        check = 0
+        ids = ["center-circle", "left-arrow", "right-arrow", "top-arrow", "down-arrow"]
+        for i in range (len(self.directions_status)):
+            if self.directions_status[i] == 1:
+                # reset active directions status to 0
+                if i == 0 and identifier != "center-circle":
+                    self.getArrowPixmap(self.circle, "center-circle")
+                    check = 1
+                elif i == 1 and identifier != "left-arrow":
+                    self.getArrowPixmap(self.left, "left-arrow", degree=180)
+                    check = 1
+                elif i == 2 and identifier != "right-arrow":
+                    self.getArrowPixmap(self.right, "right-arrow", degree=0)
+                    check = 1
+                elif i == 3 and identifier != "top-arrow":
+                    self.getArrowPixmap(self.top, "top-arrow", degree=-90)
+                    check = 1
+                elif i == 4 and identifier != "down-arrow":
+                    self.getArrowPixmap(self.down, "down-arrow", degree=90)
+                    check = 1
+
+                if check == 1:
+                    self.directions_status[i] = 0
+                    break
+
+        pixmap = p.copy()
+        if check == 1:
+            # set the new direction status active
+            for i in range(5):
+                if ids[i] == identifier:
+                    self.directions_status[i] = 1
+
+            if degree != 0:
+                t = QTransform()
+                t.rotate(degree)
+                pixmap = pixmap.transformed(t)
+
+            mask = pixmap.createMaskFromColor(QColor(0, 0, 0), Qt.MaskOutColor)
+
+            pixmap.fill(Qt.transparent)
+            p = QPainter(pixmap)
+            p.setPen(QColor(255, 0, 0, 255))
+            p.drawPixmap(pixmap.rect(), mask, mask.rect())
+            p.end()
+            self.display_image(None, identifier, pixmap)
+
+    def update_frame(self):
+        _, frame = self.capture.read()
+        frame = cv2.flip(frame, 1)
+        frame = imutils.resize(frame, width=700)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        subjects = self.detector(gray, 0)
+
+        eye_frame = frame.copy()
+
+        LeftEyeArr = [0, 0, 0, 0]
+        RightEyeArr = [0, 0, 0, 0]
+
+        for subject in subjects:
+            shape = self.predict(gray, subject)
+            shape = face_utils.shape_to_np(shape)
+            leftEye = shape[self.rshape[0]: self.rshape[1]]
+            rightEye = shape[self.lshape[0]: self.lshape[1]]
+
+            # left eye capture
+            # trying to show just the left end
+            LeftEyeArr = [leftEye[0][0], leftEye[3][0], leftEye[1][1], leftEye[4][1]]
+            RightEyeArr = [rightEye[0][0], rightEye[3][0], rightEye[1][1], rightEye[4][1]]
+
+            leftEAR = processes.eye_aspect_ratio(leftEye)
+            rightEAR = processes.eye_aspect_ratio(rightEye)
+            ear = (leftEAR + rightEAR) / 2.0
+            leftEyeHull = cv2.convexHull(leftEye)
+            rightEyeHull = cv2.convexHull(rightEye)
+            cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
+            cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
+            if ear < self.thresh:
+                self.flag += 1
+                print(self.flag)
+                if self.flag >= self.frame_check:
+                    cv2.putText(frame, "****************EYES CLOSED!****************", (10, 30),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                    cv2.putText(frame, "****************EYES CLOSED!****************", (10, 325),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+            else:
+                self.flag = 0
+
+        if self.trackLeftEye:
+            if self.rightEyeCheckbox.isChecked():
+                self.leftEyeCheckbox.setChecked(False)
+                self.trackLeftEye = False
+            else:
+                self.leftEyeCheckbox.setChecked(True)
+        else:
+            if self.leftEyeCheckbox.isChecked():
+                self.rightEyeCheckbox.setChecked(False)
+                self.trackLeftEye = True
+            else:
+                self.rightEyeCheckbox.setChecked(True)
 
 
-def eye_aspect_ratio(eye):
-    A = distance.euclidean(eye[1], eye[5])
-    B = distance.euclidean(eye[2], eye[4])
-    C = distance.euclidean(eye[0], eye[3])
-    ear = (A + B) / (2.0 * C)
-    return ear
+        # Detect and track eyes
+        lcheck, lframe, bwlframe, lpos = processes.getEyeFrames(eye_frame, LeftEyeArr, self.eye_padding, self.leftEyeCheckbox.isChecked(), self.leftEyeThreshold.value())
+        rcheck, rframe, bwrframe, rpos = processes.getEyeFrames(eye_frame, RightEyeArr, self.eye_padding, self.rightEyeCheckbox.isChecked(), self.rightEyeThreshold.value())
 
-def leftEyeDetection(frame, mousex, mousey, arr):
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray = cv2.GaussianBlur(gray, (7, 7), 0)
-    _, threshold = cv2.threshold(gray, 31, 255, cv2.THRESH_BINARY_INV)
-    img = cv2.erode(threshold, None, iterations=2)
-    img = cv2.dilate(img, None, iterations=4)
-    img = cv2.medianBlur(img, 5)
-    contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+        if lcheck is True:
+            self.display_image(lframe, "left-eye")
+            self.display_image(bwlframe, "left-eye-contrast")
 
-    cx = 0
-    cy = 0
-    # --------- checking for 2 contours found or not ----------------#
-    if len(contours) == 2:
-        M = cv2.moments(contours[1])
+            if self.leftEyeCheckbox.isChecked():
+                if lpos == 0:
+                    #center
+                    self.turnOnDirectionArrow(self.circle, "center-circle")
+                elif lpos == 1:
+                    #left
+                    self.turnOnDirectionArrow(self.left, "left-arrow", degree=180)
+                elif lpos == 2:
+                    #right
+                    self.turnOnDirectionArrow(self.right, "right-arrow", degree=0)
+                elif lpos == 3:
+                    #top
+                    self.turnOnDirectionArrow(self.top, "top-arrow", degree=-90)
+                elif lpos == 4:
+                    #down
+                    self.turnOnDirectionArrow(self.down, "down-arrow", degree=90)
 
-        #print("contours:\n", contours[1])
-        if M['m00'] != 0:
-            cx = int(M['m10'] / M['m00'])
-            cy = int(M['m01'] / M['m00'])
 
-            cv2.line(frame, (cx, cy), (cx, cy), (0, 0, 255), 3)
-    # -------- checking for one countor presence --------------------#
-    elif len(contours) == 1:
-        # img = cv2.drawContours(roi, contours, 0, (0,255,0), 3)
+        if rcheck is True:
+            self.display_image(rframe, "right-eye")
+            self.display_image(bwrframe, "right-eye-contrast")
 
-        # ------- finding centroid of the countor ----#
-        M = cv2.moments(contours[0])
+            if self.rightEyeCheckbox.isChecked():
+                if rpos == 0:
+                    #center
+                    self.turnOnDirectionArrow(self.circle, "center-circle")
+                elif rpos == 1:
+                    #left
+                    self.turnOnDirectionArrow(self.left, "left-arrow", degree=180)
+                elif rpos == 2:
+                    #right
+                    self.turnOnDirectionArrow(self.right, "right-arrow", degree=0)
+                elif rpos == 3:
+                    #top
+                    self.turnOnDirectionArrow(self.top, "top-arrow", degree=-90)
+                elif rpos == 4:
+                    #down
+                    self.turnOnDirectionArrow(self.down, "down-arrow", degree=90)
 
-        if M['m00'] != 0:
-            cx = int(M['m10'] / M['m00'])
-            cy = int(M['m01'] / M['m00'])
+        self.display_image(frame, "face")
 
-            cv2.line(frame, (cx, cy), (cx, cy), (0, 0, 255), 3)
-    else:
-        print("iris not detected")
+    def display_image(self, img, window, pixmap=None):
+        if img is not None:
+            # Makes OpenCV images displayable on PyQT, displays them
+            qformat = QImage.Format_Indexed8
+            if len(img.shape) == 3:
+                if img.shape[2] == 4:  # RGBA
+                    qformat = QImage.Format_RGBA8888
+                else:  # RGB
+                    qformat = QImage.Format_RGB888
 
-    # print ("cx: ", cx, "\ncy: ", cy)
-    ran = arr[1] - arr[0]
-    mid = ran / 2
-    if cx < mid:
-        print("looking left")
-    elif cx > mid:
-        print("looking right")
-    """
-    rany = arr[3] - arr[2]
-    midy = rany / 2
-    if cy < midy:
-        print("looking down")
-    elif cy > midy:
-        print("looking up")"""
+            out_image = QImage(img, img.shape[1], img.shape[0], img.strides[0], qformat)  # BGR to RGB
+            out_image = out_image.rgbSwapped()
 
-    return frame, img, cx, cy
+            if window == 'face':  # main window
+                self.baseImage.setPixmap(QPixmap.fromImage(out_image))
+                self.baseImage.setScaledContents(True)
+            if window == 'left-eye':  # left eye window
+                self.leftEye.setPixmap(QPixmap.fromImage(out_image))
+                self.leftEye.setScaledContents(True)
+            if window == 'left-eye-contrast':  # left eye contrast
+                self.leftEyeBW.setPixmap(QPixmap.fromImage(out_image))
+                self.leftEyeBW.setScaledContents(True)
+            if window == 'right-eye':  # right eye window
+                self.rightEye.setPixmap(QPixmap.fromImage(out_image))
+                self.rightEye.setScaledContents(True)
+            if window == 'right-eye-contrast':  # right eye window
+                self.rightEyeBW.setPixmap(QPixmap.fromImage(out_image))
+                self.rightEyeBW.setScaledContents(True)
+        else:
+            if window == 'top-arrow':
+                self.topArrow.setPixmap(pixmap)
+                self.topArrow.setScaledContents(True)
+            if window == 'down-arrow':
+                self.downArrow.setPixmap(pixmap)
+                self.downArrow.setScaledContents(True)
+            if window == 'left-arrow':
+                self.leftArrow.setPixmap(pixmap)
+                self.leftArrow.setScaledContents(True)
+            if window == 'right-arrow':
+                self.rightArrow.setPixmap(pixmap)
+                self.rightArrow.setScaledContents(True)
+            if window == 'center-circle':
+                self.centerCircle.setPixmap(pixmap)
+                self.centerCircle.setScaledContents(True)
 
 
 def MouseFollowTheEye(x, y, mousex, mousey):
@@ -151,90 +342,9 @@ def MoveMouse(pupil_pos, mousex, mousey, nsamples):
     return x, y
 
 
-pyautogui.FAILSAFE = False
-mousex = -1
-mousey = -1
-thresh = 0.25
-frame_check = 15
-eye_padding = 3
 
-pupil_pos = []
-
-
-# initializing the mouse to the center position
-
-
-detect = dlib.get_frontal_face_detector()
-predict = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")  # Dat file is the crux of the code
-
-(lStart, lEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["left_eye"]
-(rStart, rEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["right_eye"]
-cap = cv2.VideoCapture(0)
-flag = 0
-while True:
-    #root.update_idletasks()
-    #root.update()
-    ret, frame = cap.read()
-    frame = cv2.flip(frame, 1)
-    frame = imutils.resize(frame, width=700)
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    subjects = detect(gray, 0)
-
-    eyes_frame = frame.copy()
-
-    LeftEyeArr = [0, 0, 0, 0]
-
-    #contours, hierarchy = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-    for subject in subjects:
-        shape = predict(gray, subject)
-        shape = face_utils.shape_to_np(shape)  # converting to NumPy Array
-        leftEye = shape[rStart:rEnd]
-        rightEye = shape[lStart:lEnd]
-
-        # left eye capture
-        # trying to show just the left end
-        LeftEyeArr = [leftEye[0][0], leftEye[3][0], leftEye[1][1], leftEye[4][1]]
-
-        leftEAR = eye_aspect_ratio(leftEye)
-        rightEAR = eye_aspect_ratio(rightEye)
-        ear = (leftEAR + rightEAR) / 2.0
-        leftEyeHull = cv2.convexHull(leftEye)
-        rightEyeHull = cv2.convexHull(rightEye)
-        cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
-        cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
-        if ear < thresh:
-            flag += 1
-            #print (flag)
-            if flag >= frame_check:
-                cv2.putText(frame, "****************BLINK!****************", (10, 30),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                cv2.putText(frame, "****************BLINK!****************", (10, 325),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-            # print ("Drowsy")
-        else:
-            flag = 0
-
-    check = True
-    for val in LeftEyeArr:
-        if val == 0:
-            check = False
-
-    if check is True:
-        roi = eyes_frame[LeftEyeArr[2] - eye_padding: LeftEyeArr[3] + eye_padding, LeftEyeArr[0] - eye_padding: LeftEyeArr[1] + eye_padding]
-        roi, bw, posx, posy = leftEyeDetection(roi, mousex, mousey, LeftEyeArr)
-        #pupil_pos.append([posx, posy])
-
-        if len(pupil_pos) == 5:
-            mousex, mousey = MoveMouse(pupil_pos, mousex, mousey, 5)
-            pupil_pos = []
-        cv2.imshow("Left Eye", roi)
-        cv2.imshow("Black and White Eye", bw)
-
-    cv2.imshow("Frame", frame)
-    key = cv2.waitKey(1) & 0xFF
-    if key == ord("q"):
-        break
-
-cv2.destroyAllWindows()
-cap.stop()
+app = QApplication(sys.argv)
+window = CalibrationWindow()
+window.setWindowTitle("Calibration Window")
+window.show()
+sys.exit(app.exec_())
