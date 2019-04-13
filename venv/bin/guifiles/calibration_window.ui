@@ -164,20 +164,20 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QSlider" name="leftEyeThreshold">
+   <widget class="QSlider" name="contrastThreshold">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>390</y>
+      <x>900</x>
+      <y>400</y>
       <width>241</width>
       <height>22</height>
      </rect>
     </property>
     <property name="maximum">
-     <number>100</number>
+     <number>150</number>
     </property>
     <property name="value">
-     <number>33</number>
+     <number>70</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -187,32 +187,13 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>390</y>
+      <y>370</y>
       <width>100</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string>Eyes Contrast</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="rightEyeThreshold">
-    <property name="geometry">
-     <rect>
-      <x>1080</x>
-      <y>390</y>
-      <width>241</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="value">
-     <number>33</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>
