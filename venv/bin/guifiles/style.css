@@ -1,6 +1,8 @@
 QMainWindow {
     background-color: #1B293F;
     color: #CBD1D8;
+    width: 100vh;
+    height: 100vh;
 }
 
 QLabel {

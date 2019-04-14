@@ -184,3 +184,16 @@ def drawEyeGrid(frame, cx):
         print("looking center")
 
     return id
+
+
+def findProbablePos(pos):
+    sum_x = 0
+    sum_y = 0
+    for i in range(len(pos)):
+        sum_x += pos[i][0]
+        sum_y += pos[i][1]
+
+    sum_x /= len(pos)
+    sum_y /= len(pos)
+
+    return [sum_x, sum_y]

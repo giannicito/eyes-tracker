@@ -13,7 +13,7 @@ import sys
 class CalibrationWindow(QMainWindow):
     def __init__(self):
         super(CalibrationWindow, self).__init__()
-        loadUi(os.path.join("guifiles", "calibration_window.ui"), self)
+        loadUi(os.path.join("guifiles", "main_window.ui"), self)
         with open(os.path.join("guifiles", "style.css"), "r") as css:
             self.setStyleSheet(css.read())
 
@@ -129,7 +129,6 @@ class CalibrationWindow(QMainWindow):
         if len(faces_detected) > 0:
             face = faces_detected[0]
 
-            print(face)
             # faces points found by dlib library
             landmarks = self.predict(gray, face)
 
@@ -157,7 +156,7 @@ class CalibrationWindow(QMainWindow):
             direction = (le_direction + re_direction) / 2
 
             left_limit = 0.77
-            right_limit = 1.5
+            right_limit = 2.3
 
             pixmaps = []
             buttons = []
