@@ -129,6 +129,7 @@ class CalibrationWindow(QMainWindow):
         if len(faces_detected) > 0:
             face = faces_detected[0]
 
+            print(face)
             # faces points found by dlib library
             landmarks = self.predict(gray, face)
 

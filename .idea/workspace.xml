@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/venv/bin/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/EyesTracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EyesTracker.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/classes/processes.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/classes/processes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/main_v4.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/main_v4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/bin/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/venv/bin/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="153" column="152" selection-start-line="153" selection-start-column="152" selection-end-line="153" selection-end-column="152" />
+            <state relative-caret-position="-202">
+              <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="131" selection-end-column="23" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -31,7 +30,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-234">
+            <state relative-caret-position="405">
               <caret line="33" column="86" selection-start-line="33" selection-start-column="86" selection-end-line="33" selection-end-column="86" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
@@ -52,7 +51,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
+            <state relative-caret-position="2685">
               <caret line="179" column="15" selection-start-line="179" selection-start-column="15" selection-end-line="179" selection-end-column="15" />
             </state>
           </provider>
@@ -144,29 +143,40 @@
         <subPane>
           <expand>
             <path>
-              <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EyesTracker" type="462c0819:PsiDirectoryNode" />
+              <item name="eyes-tracking" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EyesTracker" type="462c0819:PsiDirectoryNode" />
+              <item name="eyes-tracking" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
               <item name="venv" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EyesTracker" type="462c0819:PsiDirectoryNode" />
+              <item name="eyes-tracking" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
               <item name="venv" type="462c0819:PsiDirectoryNode" />
               <item name="bin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EyesTracker" type="462c0819:PsiDirectoryNode" />
+              <item name="eyes-tracking" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
               <item name="venv" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="EyesTracker" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="eyes-tracking" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="guifiles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="eyes-tracking" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="image" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -512,10 +522,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui">
+    <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="179" column="15" selection-start-line="179" selection-start-column="15" selection-end-line="179" selection-end-column="15" />
+        <state relative-caret-position="405">
+          <caret line="33" column="86" selection-start-line="33" selection-start-column="86" selection-end-line="33" selection-end-column="86" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -526,20 +539,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
+    <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-234">
-          <caret line="33" column="86" selection-start-line="33" selection-start-column="86" selection-end-line="33" selection-end-column="86" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2685">
+          <caret line="179" column="15" selection-start-line="179" selection-start-column="15" selection-end-line="179" selection-end-column="15" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/pip-selfcheck.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/venv/bin/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="153" column="152" selection-start-line="153" selection-start-column="152" selection-end-line="153" selection-end-column="152" />
+        <state relative-caret-position="-202">
+          <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="131" selection-end-column="23" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
