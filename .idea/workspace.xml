@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/venv/bin/calibration.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/bin/guifiles/main_window.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/windows/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/bin/windows/initial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/classes/processes.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/classes/processes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/guifiles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/guifiles/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/bin/calibration.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/windows/calibration.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/bin/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,32 +19,47 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/bin/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="179" selection-end-column="83" />
+            <state relative-caret-position="195">
+              <caret line="13" column="51" selection-start-line="13" selection-start-column="51" selection-end-line="13" selection-end-column="51" />
               <folding>
-                <element signature="e#0#30#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/venv/bin/calibration.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="174" column="48" selection-start-line="174" selection-start-column="48" selection-end-line="174" selection-end-column="48" />
-              <folding>
-                <element signature="e#0#30#0" expanded="true" />
+                <element signature="e#1#70#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
+        <entry file="file://$PROJECT_DIR$/venv/bin/windows/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="193" column="26" lean-forward="true" selection-start-line="193" selection-start-column="26" selection-end-line="193" selection-end-column="26" />
+            <state>
+              <caret column="25" lean-forward="true" selection-start-column="25" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/bin/windows/initial.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-243">
+              <caret column="30" lean-forward="true" selection-start-column="30" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/main_window.ui">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="21" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/venv/bin/windows/calibration.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="362">
+              <caret line="250" column="34" selection-start-line="250" selection-start-column="34" selection-end-line="250" selection-end-column="34" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -57,8 +70,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="10" lean-forward="true" selection-start-column="10" selection-end-column="10" />
+            <state relative-caret-position="110">
+              <caret line="155" column="50" selection-start-line="155" selection-start-column="33" selection-end-line="155" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="193" column="26" selection-start-line="193" selection-start-column="26" selection-end-line="193" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,18 +108,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pupil_pos</find>
-      <find>update_frame</find>
-      <find>np</find>
-      <find>flag</find>
-      <find>self.thresh</find>
-      <find>leftEyeDetection</find>
       <find>eyes_frame</find>
       <find>LeftEyeArr</find>
       <find>left</find>
       <find>Right eye</find>
       <find>trackLeftEye</find>
-      <find>show</find>
       <find>track</find>
       <find>leftEye</find>
       <find>MouseFollowTheEye</find>
@@ -113,10 +131,19 @@
       <find>self.top</find>
       <find>top</find>
       <find>turnOnDirectionArrow</find>
+      <find>CalibrationWindow</find>
+      <find>show</find>
+      <find>circle_pointer</find>
+      <find>goalPoint</find>
+      <find>painter</find>
+      <find>rightEyeBW</find>
+      <find>click_detection</find>
     </findStrings>
     <replaceStrings>
       <replace>processes.</replace>
       <replace>eyeArr</replace>
+      <replace>MainWindow</replace>
+      <replace>targetPoint</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -135,16 +162,18 @@
         <option value="$PROJECT_DIR$/venv/bin/classes/__init__.py" />
         <option value="$PROJECT_DIR$/venv/bin/main_v2.py" />
         <option value="$PROJECT_DIR$/venv/bin/main_v4.py" />
-        <option value="$PROJECT_DIR$/venv/bin/main.py" />
         <option value="$PROJECT_DIR$/venv/bin/guifiles/main_window.ui" />
         <option value="$PROJECT_DIR$/venv/bin/guifiles/style.css" />
         <option value="$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui" />
         <option value="$PROJECT_DIR$/venv/bin/classes/processes.py" />
         <option value="$PROJECT_DIR$/venv/bin/calibration.py" />
+        <option value="$PROJECT_DIR$/venv/bin/windows/__init__.py" />
+        <option value="$PROJECT_DIR$/venv/bin/main.py" />
+        <option value="$PROJECT_DIR$/venv/bin/windows/calibration.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1440" />
     <option name="height" value="900" />
   </component>
@@ -156,6 +185,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -186,6 +216,13 @@
               <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
               <item name="venv" type="462c0819:PsiDirectoryNode" />
               <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="conf" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="eyes-tracking" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
               <item name="guifiles" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -195,28 +232,36 @@
               <item name="bin" type="462c0819:PsiDirectoryNode" />
               <item name="image" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="eyes-tracking" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eyes-tracking" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+              <item name="windows" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/bin/guifiles" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/bin/windows" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/venv/bin/windows" />
+      <recent name="$PROJECT_DIR$/venv/bin/guifiles" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/venv/bin/windows" />
       <recent name="$PROJECT_DIR$/venv/bin/image" />
       <recent name="$PROJECT_DIR$/venv/bin/class" />
       <recent name="$PROJECT_DIR$/venv/bin" />
       <recent name="$PROJECT_DIR$/venv/bin/video" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/venv/bin/guifiles" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -231,7 +276,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.calibration">
+  <component name="RunManager" selected="Python.main">
     <configuration name="calibration" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="EyesTracker" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -244,7 +289,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/bin/calibration.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/bin/windows/calibration.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -339,8 +384,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.calibration" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.calibration" />
         <item itemvalue="Python.main_v4" />
         <item itemvalue="Python.main_v2" />
         <item itemvalue="Python.main_v3" />
@@ -386,7 +431,14 @@
       <option name="project" value="LOCAL" />
       <updated>1555232349460</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Implemented the eyes calibration">
+      <created>1555259823545</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1555259823545</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -399,7 +451,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29527837" />
@@ -466,7 +518,8 @@
     <MESSAGE value="Some problem with detection of iris fixed" />
     <MESSAGE value="Implemented the new GUI" />
     <MESSAGE value="restore files" />
-    <option name="LAST_COMMIT_MESSAGE" value="restore files" />
+    <MESSAGE value="Implemented the eyes calibration" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented the eyes calibration" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -593,37 +646,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/bin/main.py">
+    <entry file="file://$PROJECT_DIR$/venv/bin/windows/initial.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="179" selection-end-column="83" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-243">
+          <caret column="30" lean-forward="true" selection-start-column="30" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/windows/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="25" lean-forward="true" selection-start-column="25" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
-          <caret line="193" column="26" lean-forward="true" selection-start-line="193" selection-start-column="26" selection-end-line="193" selection-end-column="26" />
+          <caret line="193" column="26" selection-start-line="193" selection-start-column="26" selection-end-line="193" selection-end-column="26" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui">
+    <entry file="file://$PROJECT_DIR$/venv/bin/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="10" lean-forward="true" selection-start-column="10" selection-end-column="10" />
+        <state relative-caret-position="195">
+          <caret line="13" column="51" selection-start-line="13" selection-start-column="51" selection-end-line="13" selection-end-column="51" />
+          <folding>
+            <element signature="e#1#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/bin/calibration.py">
+    <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/calibration_window.ui">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="174" column="48" selection-start-line="174" selection-start-column="48" selection-end-line="174" selection-end-column="48" />
+        <state relative-caret-position="110">
+          <caret line="155" column="50" selection-start-line="155" selection-start-column="33" selection-end-line="155" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/conf/calibration.dat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/windows/calibration.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="250" column="34" selection-start-line="250" selection-start-column="34" selection-end-line="250" selection-end-column="34" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
