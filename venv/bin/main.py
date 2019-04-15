@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from windows.calibration import CalibrationWindow
+from windows.testing import TestingWindow
 import os
 import sys
 
@@ -14,6 +15,7 @@ class MainWindow(QMainWindow):
         self.height = self.frameGeometry().height()
 
         exists = os.path.isfile("./conf/calibration.dat")
+        exists = False
         if exists:
             # Store configuration file values
             self.startInitialWindow()
@@ -29,6 +31,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Calibration Window")
         self.setCentralWidget(self.calibration)
         self.showMaximized()
+        """self.calibration = TestingWindow(self)
+        self.setWindowTitle("Testing Window")
+        self.setCentralWidget(self.calibration)
+        self.showMaximized()"""
 
 
 

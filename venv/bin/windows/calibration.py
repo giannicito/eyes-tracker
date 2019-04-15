@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QPushButton
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage, QTransform, QColor, QPainter
 import classes.processes as processes
+from windows.testing import TestingWindow
 import os
 
 class CalibrationWindow(QWidget):
@@ -17,11 +18,10 @@ class CalibrationWindow(QWidget):
         self.width = parent.width
         self.height = parent.height
 
-        print("w: " + str(self.width))
-        print("h: " + str(self.height))
+        self.parent = parent
 
         self.targetPoint = QLabel("", self)
-        self.targetPoint.setGeometry(-100, -100, 50, 50)
+        self.targetPoint.setGeometry(int((self.width - 50) / 2), int((self.height - 50) / 2), 50, 50)
 
         self.leftEye = QLabel("Left Eye", self)
         self.leftEye.setGeometry(int((self.width - 550) / 2), 70, 200, 75)
@@ -35,8 +35,12 @@ class CalibrationWindow(QWidget):
         self.rightEyeBW = QLabel("Right Eye BW", self)
         self.rightEyeBW.setGeometry(int((self.width - 550) / 2) + 350, 200, 200, 75)
 
+        self.thresholdTitle = QLabel("Keep your head and your eyes straight forward the blue point", self)
+        self.thresholdTitle.setGeometry(int(self.width / 2) - 250, 350, 500, 30)
+        self.thresholdTitle.setAlignment(Qt.AlignCenter)
+
         self.thresholdTitle = QLabel("Threshold Contrast", self)
-        self.thresholdTitle.setGeometry(int(self.width / 2) - 125, 400, 250, 30)
+        self.thresholdTitle.setGeometry(int(self.width / 2) - 125, 420, 250, 30)
         self.thresholdTitle.setAlignment(Qt.AlignCenter)
 
         self.contrastThreshold = QSlider(Qt.Horizontal, self)
@@ -44,9 +48,13 @@ class CalibrationWindow(QWidget):
         self.contrastThreshold.setMaximum(150)
         self.contrastThreshold.setValue(70)
 
-        button = QPushButton('Start Calibration', self)
-        button.setGeometry(int(self.width / 2) - 100, 500, 200, 30)
-        button.clicked.connect(self.startCalibration)
+        self.button = QPushButton('Start Calibration', self)
+        self.button.setGeometry(int(self.width / 2) - 100, 500, 200, 30)
+        self.button.clicked.connect(self.startCalibration)
+
+        self.testButton = QPushButton('Start Testing', self)
+        self.testButton.setGeometry(int(self.width / 2) - 100, 550, 200, 30)
+        self.testButton.clicked.connect(self.startTesting)
 
         self.click_detection = 0
         self.eye_padding = 2
@@ -68,6 +76,7 @@ class CalibrationWindow(QWidget):
         self.timer.start(0)
 
         self.circle = QPixmap(os.path.join(os.path.abspath(os.path.dirname(__file__)), "../image", "circle.png"))
+        self.getArrowPixmap(self.circle, "goal-point", [int((self.width - 50) / 2), int((self.height - 75) / 2)], color=QColor(0, 0, 255, 255))
 
     def getArrowPixmap(self, p, identifier, position, color=QColor(255, 0, 0, 255)):
         self.targetPoint.move(position[0], position[1])
@@ -168,18 +177,24 @@ class CalibrationWindow(QWidget):
 
                     if self.calibrated >= 9:
                         print("all finished")
-                        self.point_detection = 300
+                        self.point_detection = -1
 
-                        self.saveCalibrationData()
-                        """left = (self.point_pos[0][0] + self.point_pos[1][0] + self.point_pos[2][0]) / 3
+                        self.testButton.move(int(self.width / 2) - 100, 500)
+                        left = (self.point_pos[0][0] + self.point_pos[1][0] + self.point_pos[2][0]) / 3
                         top = (self.point_pos[0][1] + self.point_pos[3][1] + self.point_pos[6][1]) / 3
                         right = (self.point_pos[6][0] + self.point_pos[7][0] + self.point_pos[8][0]) / 3
                         down = (self.point_pos[2][1] + self.point_pos[5][1] + self.point_pos[8][1]) / 3
+                        middle_h = (self.point_pos[1][1] + self.point_pos[4][1] + self.point_pos[7][1]) / 3
+                        middle_v = (self.point_pos[3][0] + self.point_pos[4][0] + self.point_pos[5][0]) / 3
     
                         print("left: " + str(left))
                         print("right: " + str(right))
                         print("top: " + str(top))
-                        print("down: " + str(down))"""
+                        print("down: " + str(down))
+                        print("middle_h: " + str(middle_h))
+                        print("middle_V: " + str(middle_v))
+
+                        self.saveCalibrationData([left, right, top, down, middle_h, middle_v])
 
 
             self.display_image(le_n, "left-eye")
@@ -190,11 +205,13 @@ class CalibrationWindow(QWidget):
 
         #self.display_image(frame, "face")
 
-    def saveCalibrationData(self):
+    def saveCalibrationData(self, data):
         f = open("./conf/calibration.dat", "w+")
 
-        for i in range(9):
-            f.write(str(self.point_pos[0][0]) + "," + str(self.point_pos[0][1]) + "\n")
+        for i in range(len(data)):
+            f.write(str(data[i]) + ",")
+
+        f.write(str(self.contrastThreshold.value()))
 
         f.close()
 
@@ -251,7 +268,15 @@ class CalibrationWindow(QWidget):
         self.targetPoint.move(0, 0)
         self.getArrowPixmap(self.circle, "goal-point", [0, 0])
 
+        self.button.move(-300, 0)
+        self.testButton.move(-300, 0)
+
         self.point_detection = 0
 
+    def startTesting(self):
+        self.parent.Window = TestingWindow(self.parent)
+        self.parent.setWindowTitle("Testing Window")
+        self.parent.setCentralWidget(self.parent.Window)
+        self.parent.show()
 
 
