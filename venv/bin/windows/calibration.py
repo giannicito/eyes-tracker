@@ -1,10 +1,7 @@
-from imutils import face_utils
 import imutils
 import cv2
-import pyautogui
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QPushButton
-from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage, QTransform, QColor, QPainter
 import classes.processes as processes
 from windows.testing import TestingWindow
@@ -179,7 +176,6 @@ class CalibrationWindow(QWidget):
                         print("all finished")
                         self.point_detection = -1
 
-                        self.testButton.move(int(self.width / 2) - 100, 500)
                         left = (self.point_pos[0][0] + self.point_pos[1][0] + self.point_pos[2][0]) / 3
                         top = (self.point_pos[0][1] + self.point_pos[3][1] + self.point_pos[6][1]) / 3
                         right = (self.point_pos[6][0] + self.point_pos[7][0] + self.point_pos[8][0]) / 3
@@ -267,9 +263,6 @@ class CalibrationWindow(QWidget):
     def startCalibration(self):
         self.targetPoint.move(0, 0)
         self.getArrowPixmap(self.circle, "goal-point", [0, 0])
-
-        self.button.move(-300, 0)
-        self.testButton.move(-300, 0)
 
         self.point_detection = 0
 

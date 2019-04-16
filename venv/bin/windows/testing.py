@@ -50,6 +50,9 @@ class TestingWindow(QWidget):
         self.contrastThreshold = 70
         self.getCalibrationData()
 
+        self.window_side = -1
+        self.frame_pos = []
+
         self.lshape, self.rshape, self.detector, self.predict = processes.initialize_opencv()
         self.capture = cv2.VideoCapture(0)
         self.timer = QTimer(self)
@@ -97,18 +100,60 @@ class TestingWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            screen_side = 0
+            self.frame_pos.append([hor_dir, ver_dir])
+
+            frame_check = 10
+
             if hor_dir >= self.left_limit and hor_dir <= self.middlev_limit and ver_dir <= self.top_limit and ver_dir >= self.middleh_limit:
                 self.setActiveSide(0)
+                if len(self.frame_pos) >= frame_check:
+                    hor_dir, ver_dir = self.getAverageXYPoint()
+                    self.getScreenPosition(hor_dir, ver_dir, self.left_limit, self.middlev_limit, self.top_limit, self.middleh_limit, 0, 0)
+                    self.frame_pos = []
+
             elif hor_dir >= self.left_limit and hor_dir <= self.middlev_limit and ver_dir <= self.middleh_limit and ver_dir >= self.bottom_limit:
                 self.setActiveSide(1)
+                if len(self.frame_pos) >= frame_check:
+                    hor_dir, ver_dir = self.getAverageXYPoint()
+                    self.getScreenPosition(hor_dir, ver_dir, self.left_limit, self.middlev_limit, self.middleh_limit, self.bottom_limit, 0, self.height / 2)
+                    self.frame_pos = []
+
             elif hor_dir >= self.middlev_limit and hor_dir <= self.right_limit and ver_dir <= self.top_limit and ver_dir >= self.middleh_limit:
                 self.setActiveSide(2)
+                if len(self.frame_pos) >= frame_check:
+                    hor_dir, ver_dir = self.getAverageXYPoint()
+                    self.getScreenPosition(hor_dir, ver_dir, self.middlev_limit, self.right_limit, self.top_limit, self.middleh_limit, self.width / 2, 0)
+                    self.frame_pos = []
+
             elif hor_dir >= self.middlev_limit and hor_dir <= self.right_limit and ver_dir <= self.middleh_limit and ver_dir >= self.bottom_limit:
                 self.setActiveSide(3)
+                if len(self.frame_pos) >= frame_check:
+                    hor_dir, ver_dir = self.getAverageXYPoint()
+                    self.getScreenPosition(hor_dir, ver_dir, self.middlev_limit, self.right_limit, self.middleh_limit, self.bottom_limit, self.width / 2, self.height / 2)
+                    self.frame_pos = []
 
         #self.display_image(frame, "face")
 
+
+    def getAverageXYPoint(self):
+        x = 0
+        y = 0
+        for i in range(len(self.frame_pos)):
+            x += self.frame_pos[i][0]
+            y += self.frame_pos[i][1]
+
+        x /= len(self.frame_pos)
+        y /= len(self.frame_pos)
+
+        return x, y
+
+    def getScreenPosition(self, h, v, left, right, top, bottom, x1, y1):
+        x = int((h - left) * (self.width / 2) / (right - left)) + x1
+        y = int((top - v) * (self.height / 2) / (top - bottom)) + y1
+        print("x: ", x)
+        print("y: ", y)
+        pyautogui.moveTo(x, y)
+        return
 
     def setActiveSide(self, number):
         if number == 0:
