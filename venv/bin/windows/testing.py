@@ -13,12 +13,11 @@ class TestingWindow(QWidget):
     def __init__(self, parent=None):
         super(TestingWindow, self).__init__(parent)
 
+        pyautogui.FAILSAFE = False
+
         # initialize variables
         self.width = parent.width
         self.height = parent.height
-
-        print("w: " + str(self.width))
-        print("h: " + str(self.height))
 
         self.leftTop = QLabel("Left Top Corner", self)
         self.leftTop.setGeometry(0, 0, int(self.width / 2), int(self.height / 2))
@@ -77,7 +76,6 @@ class TestingWindow(QWidget):
     def update_frame(self):
         _, frame = self.capture.read()
         frame = cv2.flip(frame, 1)
-        frame = imutils.resize(frame, width=640)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces_detected = self.detector(gray)
 
@@ -102,7 +100,7 @@ class TestingWindow(QWidget):
 
             self.frame_pos.append([hor_dir, ver_dir])
 
-            frame_check = 10
+            frame_check = 3
 
             if hor_dir >= self.left_limit and hor_dir <= self.middlev_limit and ver_dir <= self.top_limit and ver_dir >= self.middleh_limit:
                 self.setActiveSide(0)
@@ -150,8 +148,6 @@ class TestingWindow(QWidget):
     def getScreenPosition(self, h, v, left, right, top, bottom, x1, y1):
         x = int((h - left) * (self.width / 2) / (right - left)) + x1
         y = int((top - v) * (self.height / 2) / (top - bottom)) + y1
-        print("x: ", x)
-        print("y: ", y)
         pyautogui.moveTo(x, y)
         return
 

@@ -1,8 +1,8 @@
-import imutils
 import cv2
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QPushButton
 from PyQt5.QtGui import QPixmap, QImage, QTransform, QColor, QPainter
+from PyQt5.QtCore import pyqtSlot
 import classes.processes as processes
 from windows.testing import TestingWindow
 import os
@@ -45,9 +45,9 @@ class CalibrationWindow(QWidget):
         self.contrastThreshold.setMaximum(150)
         self.contrastThreshold.setValue(70)
 
-        self.button = QPushButton('Start Calibration', self)
-        self.button.setGeometry(int(self.width / 2) - 100, 500, 200, 30)
-        self.button.clicked.connect(self.startCalibration)
+        self.calibButton = QPushButton('Start Calibration', self)
+        self.calibButton.setGeometry(int(self.width / 2) - 100, 500, 200, 30)
+        self.calibButton.clicked.connect(self.startCalibration)
 
         self.testButton = QPushButton('Start Testing', self)
         self.testButton.setGeometry(int(self.width / 2) - 100, 550, 200, 30)
@@ -74,6 +74,20 @@ class CalibrationWindow(QWidget):
 
         self.circle = QPixmap(os.path.join(os.path.abspath(os.path.dirname(__file__)), "../image", "circle.png"))
         self.getArrowPixmap(self.circle, "goal-point", [int((self.width - 50) / 2), int((self.height - 75) / 2)], color=QColor(0, 0, 255, 255))
+
+    @pyqtSlot()
+    def startCalibration(self):
+        self.calibButton.setEnabled(False)
+        self.getArrowPixmap(self.circle, "goal-point", [0, 0])
+        self.point_detection = 0
+
+    @pyqtSlot()
+    def startTesting(self):
+        self.testButton.setEnabled(False)
+        self.parent.Window = TestingWindow(self.parent)
+        self.parent.setWindowTitle("Testing Window")
+        self.parent.setCentralWidget(self.parent.Window)
+        self.parent.show()
 
     def getArrowPixmap(self, p, identifier, position, color=QColor(255, 0, 0, 255)):
         self.targetPoint.move(position[0], position[1])
@@ -109,7 +123,15 @@ class CalibrationWindow(QWidget):
     def update_frame(self):
         _, frame = self.capture.read()
         frame = cv2.flip(frame, 1)
-        frame = imutils.resize(frame, width=640)
+
+        #kernel = np.ones((15, 15), np.float32) / 225
+        #smoothed = cv2.filter2D(frame, -1, kernel)
+        #blur = cv2.GaussianBlur(frame, (15, 15), 0)
+        #median = cv2.medianBlur(frame, 15)
+        #frame = cv2.bilateralFilter(frame, 15, 75, 75)
+
+        #cv2.imshow("blur", bilateral)
+
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces_detected = self.detector(gray)
 
@@ -137,7 +159,7 @@ class CalibrationWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            init_limit = 30
+            init_limit = 10
 
             if self.point_detection >= 0:
                 if self.point_detection < init_limit:
@@ -148,10 +170,10 @@ class CalibrationWindow(QWidget):
                     posx = (int)((self.width - 50) / 2) * (int)(self.calibrated / 3)
                     posy = (int)((self.height - 75) / 2) * (self.calibrated % 3)
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(255, 215, 0, 255))
-                elif self.point_detection <= init_limit + 50:
+                elif self.point_detection <= init_limit + 30:
                     self.dir_pos.append([hor_dir, ver_dir])
                     self.point_detection += 1
-                elif self.point_detection == init_limit + 51:
+                elif self.point_detection == init_limit + 31:
                     self.point_detection += 1
                     final_pos = processes.findProbablePos(self.dir_pos)
                     print (final_pos)
@@ -162,7 +184,7 @@ class CalibrationWindow(QWidget):
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(0, 255, 0, 255))
 
                     self.dir_pos = []
-                elif self.point_detection < init_limit + 70:
+                elif self.point_detection < init_limit + 45:
                     self.point_detection += 1
                 else:
                     self.point_detection = 0
@@ -259,17 +281,5 @@ class CalibrationWindow(QWidget):
             if window == 'goal-point':
                 self.targetPoint.setPixmap(pixmap)
                 self.targetPoint.setScaledContents(True)
-
-    def startCalibration(self):
-        self.targetPoint.move(0, 0)
-        self.getArrowPixmap(self.circle, "goal-point", [0, 0])
-
-        self.point_detection = 0
-
-    def startTesting(self):
-        self.parent.Window = TestingWindow(self.parent)
-        self.parent.setWindowTitle("Testing Window")
-        self.parent.setCentralWidget(self.parent.Window)
-        self.parent.show()
 
 

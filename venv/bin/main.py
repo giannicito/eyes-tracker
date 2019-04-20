@@ -14,14 +14,7 @@ class MainWindow(QMainWindow):
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
 
-        exists = os.path.isfile("./conf/calibration.dat")
-        exists = False
-        if exists:
-            # Store configuration file values
-            self.startInitialWindow()
-        else:
-            # Keep presets
-            self.startCalibrationWindow()
+        self.startCalibrationWindow()
 
     def startInitialWindow(self):
         print("start initial window")
@@ -31,10 +24,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Calibration Window")
         self.setCentralWidget(self.calibration)
         self.showMaximized()
-        """self.calibration = TestingWindow(self)
-        self.setWindowTitle("Testing Window")
-        self.setCentralWidget(self.calibration)
-        self.showMaximized()"""
 
 
 
