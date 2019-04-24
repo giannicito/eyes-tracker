@@ -5,9 +5,10 @@ import pyautogui
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QPushButton
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap, QImage, QTransform, QColor, QPainter
+from PyQt5.QtGui import QPixmap, QImage, QColor, QPainter
 import classes.processes as processes
 import os
+import numpy as np
 
 class TestingWindow(QWidget):
     def __init__(self, parent=None):
@@ -19,25 +20,34 @@ class TestingWindow(QWidget):
         self.width = parent.width
         self.height = parent.height
 
-        self.leftTop = QLabel("Left Top Corner", self)
-        self.leftTop.setGeometry(0, 0, int(self.width / 2), int(self.height / 2))
-        self.leftTop.setAlignment(Qt.AlignCenter)
-        self.leftTop.setStyleSheet("QLabel { background-color: rgba(255, 0, 0, 30); }")
+        self.tiles = []
+        self.colors_tiles = [
+            "255, 0, 0", "255, 127, 0", "255, 255, 0", "127, 255, 0",
+            "0, 255, 127", "0, 255, 255", "0, 127, 255", "0, 0, 255",
+            "127, 0, 255", "255, 0, 255", "255, 0, 127", "128, 128, 128"
+        ]
 
-        self.leftBottom = QLabel("Left Bottom Corner", self)
-        self.leftBottom.setGeometry(0, int(self.height / 2), int(self.width / 2), int(self.height / 2))
-        self.leftBottom.setAlignment(Qt.AlignCenter)
-        self.leftBottom.setStyleSheet("QLabel { background-color: rgb(0, 255, 0, 30); }")
-
-        self.rightTop = QLabel("Right Top Corner", self)
-        self.rightTop.setGeometry(int(self.width / 2), 0, int(self.width / 2), int(self.height / 2))
-        self.rightTop.setAlignment(Qt.AlignCenter)
-        self.rightTop.setStyleSheet("QLabel { background-color: rgba(0, 0, 255, 30); }")
-
-        self.rightBottom = QLabel("Right Bottom Corner", self)
-        self.rightBottom.setGeometry(int(self.width / 2), int(self.height / 2), int(self.width / 2), int(self.height / 2))
-        self.rightBottom.setAlignment(Qt.AlignCenter)
-        self.rightBottom.setStyleSheet("QLabel { background-color: rgba(0, 0, 0, 30); }")
+        keyboard = [
+            "DEL", #0
+            "G H I", #1
+            "P Q R S", #2
+            "<---", #3
+            "A B C", #4
+            "J K L", #5
+            "T U V", #6
+            "_____", #7
+            "D E F", #8
+            "M N O", #9
+            "W X Y Z", #10
+            "--->" #11
+        ]
+        for i in range(3):
+            for j in range(4):
+                label = QLabel(keyboard[(j + (i * 4))], self)
+                label.setGeometry((self.width / 3) * i, (self.height / 4) * j, int(self.width / 3), int(self.height / 4))
+                label.setAlignment(Qt.AlignCenter)
+                label.setStyleSheet("QLabel { background-color: rgba(" + self.colors_tiles[j + (i * 3)] + ", 30); }")
+                self.tiles.append(label)
 
         self.point_pos = []
         self.left_limit = 0
@@ -47,12 +57,14 @@ class TestingWindow(QWidget):
         self.middleh_limit = 0
         self.middlev_limit = 0
         self.contrastThreshold = 70
+
         self.getCalibrationData()
 
         self.window_side = -1
         self.frame_pos = []
 
         self.lshape, self.rshape, self.detector, self.predict = processes.initialize_opencv()
+        self.old_face = None
         self.capture = cv2.VideoCapture(0)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
@@ -77,7 +89,7 @@ class TestingWindow(QWidget):
         _, frame = self.capture.read()
         frame = cv2.flip(frame, 1)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces_detected = self.detector(gray)
+        faces_detected = self.detector(gray, 0)
 
         if len(faces_detected) > 0:
             face = faces_detected[0]
@@ -90,7 +102,6 @@ class TestingWindow(QWidget):
             right_eye_ratio = processes.get_blinking_ratio([42, 43, 44, 45, 46, 47], landmarks)
             blinking_ratio = (left_eye_ratio + right_eye_ratio) / 2
 
-
             # detect eye direction
             le_direction, le_bw, le_n = processes.detect_eye_direction(frame, gray, [36, 37, 38, 39, 40, 41], landmarks, self.contrastThreshold)
             re_direction, re_bw, re_n = processes.detect_eye_direction(frame, gray, [42, 43, 44, 45, 46, 47], landmarks, self.contrastThreshold)
@@ -98,39 +109,65 @@ class TestingWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
+            print(hor_dir)
+
             self.frame_pos.append([hor_dir, ver_dir])
 
-            frame_check = 3
+            if blinking_ratio > 5.7:
+                # probably blinking
+                print("blinking")
 
-            if hor_dir >= self.left_limit and hor_dir <= self.middlev_limit and ver_dir <= self.top_limit and ver_dir >= self.middleh_limit:
-                self.setActiveSide(0)
-                if len(self.frame_pos) >= frame_check:
-                    hor_dir, ver_dir = self.getAverageXYPoint()
-                    self.getScreenPosition(hor_dir, ver_dir, self.left_limit, self.middlev_limit, self.top_limit, self.middleh_limit, 0, 0)
-                    self.frame_pos = []
+            frame_check = 0
 
-            elif hor_dir >= self.left_limit and hor_dir <= self.middlev_limit and ver_dir <= self.middleh_limit and ver_dir >= self.bottom_limit:
-                self.setActiveSide(1)
-                if len(self.frame_pos) >= frame_check:
-                    hor_dir, ver_dir = self.getAverageXYPoint()
-                    self.getScreenPosition(hor_dir, ver_dir, self.left_limit, self.middlev_limit, self.middleh_limit, self.bottom_limit, 0, self.height / 2)
-                    self.frame_pos = []
+            for i in range(3):
+                for j in range(4):
+                    left, right, top, bottom, x, y = self.getLimits(i, j)
+                    if hor_dir >= left and hor_dir <= right and ver_dir <= top and ver_dir >= bottom:
+                        self.setActiveSide((i * 4) + j, x, hor_dir)
+                        if self.window_side == (i * 4) + j:
+                            if len(self.frame_pos) >= frame_check:
+                                h, v = self.getAverageXYPoint()
+                                x, y = self.getScreenPosition(h, v, left, right, top, bottom, x, y)
+                                self.frame_pos = []
+                        else:
+                            self.window_side = (i * 4) + j
+                            self.frame_pos = []
 
-            elif hor_dir >= self.middlev_limit and hor_dir <= self.right_limit and ver_dir <= self.top_limit and ver_dir >= self.middleh_limit:
-                self.setActiveSide(2)
-                if len(self.frame_pos) >= frame_check:
-                    hor_dir, ver_dir = self.getAverageXYPoint()
-                    self.getScreenPosition(hor_dir, ver_dir, self.middlev_limit, self.right_limit, self.top_limit, self.middleh_limit, self.width / 2, 0)
-                    self.frame_pos = []
-
-            elif hor_dir >= self.middlev_limit and hor_dir <= self.right_limit and ver_dir <= self.middleh_limit and ver_dir >= self.bottom_limit:
-                self.setActiveSide(3)
-                if len(self.frame_pos) >= frame_check:
-                    hor_dir, ver_dir = self.getAverageXYPoint()
-                    self.getScreenPosition(hor_dir, ver_dir, self.middlev_limit, self.right_limit, self.middleh_limit, self.bottom_limit, self.width / 2, self.height / 2)
-                    self.frame_pos = []
 
         #self.display_image(frame, "face")
+
+    def getLimits(self, col, row):
+        if col == 0:
+            x = 0
+            left = self.left_limit
+            right = self.middlev_limit - ((self.middlev_limit - self.left_limit) / 2)
+        elif col == 1:
+            x = int(self.width / 3)
+            left = self.middlev_limit - ((self.middlev_limit - self.left_limit) / 2)
+            right = self.middlev_limit + ((self.right_limit - self.middlev_limit) / 2)
+        else:
+            x = int((self.width * 2) / 3)
+            left = self.middlev_limit + ((self.right_limit - self.middlev_limit) / 2)
+            right = self.right_limit
+
+        if row == 0:
+            y = 0
+            top = self.top_limit
+            bottom = self.top_limit - ((self.top_limit - self.middleh_limit) / 2)
+        elif row == 1:
+            y = int(self.height / 4)
+            top = self.top_limit - ((self.top_limit - self.middleh_limit) / 2)
+            bottom = self.middleh_limit
+        elif row == 2:
+            y = int((self.height / 4) * 2)
+            top = self.middleh_limit
+            bottom = self.middleh_limit - ((self.middleh_limit - self.bottom_limit) / 2)
+        else:
+            y = int((self.height / 4) * 3)
+            top = self.middleh_limit - ((self.middleh_limit - self.bottom_limit) / 2)
+            bottom = self.bottom_limit
+
+        return left, right, top, bottom, x, y
 
 
     def getAverageXYPoint(self):
@@ -146,35 +183,19 @@ class TestingWindow(QWidget):
         return x, y
 
     def getScreenPosition(self, h, v, left, right, top, bottom, x1, y1):
-        x = int((h - left) * (self.width / 2) / (right - left)) + x1
-        y = int((top - v) * (self.height / 2) / (top - bottom)) + y1
+        x = int((h - left) * (self.width / 3) / (right - left)) + x1
+        y = int((top - v) * (self.height / 4) / (top - bottom)) + y1
         pyautogui.moveTo(x, y)
-        return
+        return x, y
 
-    def setActiveSide(self, number):
-        if number == 0:
-            # top left
-            self.leftTop.setStyleSheet("QLabel { background-color: rgba(255, 0, 0, 255); }")
-        else:
-            self.leftTop.setStyleSheet("QLabel { background-color: rgba(255, 0, 0, 30); }")
-
-        if number == 1:
-            # bottom left
-            self.leftBottom.setStyleSheet("QLabel { background-color: rgb(0, 255, 0, 255); }")
-        else:
-            self.leftBottom.setStyleSheet("QLabel { background-color: rgb(0, 255, 0, 30); }")
-
-        if number == 2:
-            # top right
-            self.rightTop.setStyleSheet("QLabel { background-color: rgba(0, 0, 255, 255); }")
-        else:
-            self.rightTop.setStyleSheet("QLabel { background-color: rgba(0, 0, 255, 30); }")
-
-        if number == 3:
-            # bottom right
-            self.rightBottom.setStyleSheet("QLabel { background-color: rgba(0, 0, 0, 255); }")
-        else:
-            self.rightBottom.setStyleSheet("QLabel { background-color: rgba(0, 0, 0, 30); }")
+    def setActiveSide(self, number, x, y):
+        for i in range(3):
+            for j in range(4):
+                if number == (i * 4) + j:
+                    self.tiles[(i * 4) + j].setStyleSheet("QLabel { background-color: rgba(" + self.colors_tiles[(i * 4) + j] + ", 255); }")
+                    #self.tiles[(i * 4) + j].setText(str(x) + "\n" + str(y))
+                else:
+                    self.tiles[(i * 4) + j].setStyleSheet("QLabel { background-color: rgba(" + self.colors_tiles[(i * 4) + j] + ", 30); }")
 
 
     def getCalibrationData(self):
@@ -190,12 +211,15 @@ class TestingWindow(QWidget):
             self.middlev_limit = float(arr[5])
             self.contrastThreshold = int(arr[6])
 
+        print("data:")
         print(self.left_limit)
         print(self.right_limit)
         print(self.top_limit)
         print(self.bottom_limit)
         print(self.middleh_limit)
         print(self.middlev_limit)
+        print(self.contrastThreshold)
+        print("end data")
 
         f.close()
 

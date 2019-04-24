@@ -6,6 +6,8 @@ from PyQt5.QtCore import pyqtSlot
 import classes.processes as processes
 from windows.testing import TestingWindow
 import os
+import numpy as np
+import threading
 
 class CalibrationWindow(QWidget):
     def __init__(self, parent=None):
@@ -49,6 +51,8 @@ class CalibrationWindow(QWidget):
         self.calibButton.setGeometry(int(self.width / 2) - 100, 500, 200, 30)
         self.calibButton.clicked.connect(self.startCalibration)
 
+        self.calibButton_clicked = False
+
         self.testButton = QPushButton('Start Testing', self)
         self.testButton.setGeometry(int(self.width / 2) - 100, 550, 200, 30)
         self.testButton.clicked.connect(self.startTesting)
@@ -67,21 +71,21 @@ class CalibrationWindow(QWidget):
         self.point_pos = []
 
         self.lshape, self.rshape, self.detector, self.predict = processes.initialize_opencv()
+        self.old_face = None
         self.capture = cv2.VideoCapture(0)
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_frame)
-        self.timer.start(0)
 
         self.circle = QPixmap(os.path.join(os.path.abspath(os.path.dirname(__file__)), "../image", "circle.png"))
         self.getArrowPixmap(self.circle, "goal-point", [int((self.width - 50) / 2), int((self.height - 75) / 2)], color=QColor(0, 0, 255, 255))
 
-    @pyqtSlot()
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start()
+
     def startCalibration(self):
         self.calibButton.setEnabled(False)
         self.getArrowPixmap(self.circle, "goal-point", [0, 0])
         self.point_detection = 0
 
-    @pyqtSlot()
     def startTesting(self):
         self.testButton.setEnabled(False)
         self.parent.Window = TestingWindow(self.parent)
@@ -124,16 +128,12 @@ class CalibrationWindow(QWidget):
         _, frame = self.capture.read()
         frame = cv2.flip(frame, 1)
 
-        #kernel = np.ones((15, 15), np.float32) / 225
-        #smoothed = cv2.filter2D(frame, -1, kernel)
-        #blur = cv2.GaussianBlur(frame, (15, 15), 0)
-        #median = cv2.medianBlur(frame, 15)
-        #frame = cv2.bilateralFilter(frame, 15, 75, 75)
 
-        #cv2.imshow("blur", bilateral)
+        clahe = cv2.createCLAHE(clipLimit=7.0, tileGridSize=(8, 8))
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces_detected = self.detector(gray)
+        gray = clahe.apply(gray)
+        faces_detected = self.detector(gray, 0)
 
         if len(faces_detected) > 0:
             face = faces_detected[0]
@@ -146,11 +146,6 @@ class CalibrationWindow(QWidget):
             right_eye_ratio = processes.get_blinking_ratio([42, 43, 44, 45, 46, 47], landmarks)
             blinking_ratio = (left_eye_ratio + right_eye_ratio) / 2
 
-            if blinking_ratio > 5.7:
-                if len(self.dir_pos) > 0:
-                    del self.dir_pos[-1]
-                    self.point_detection -= 1
-
 
             # detect eye direction
             le_direction, le_bw, le_n = processes.detect_eye_direction(frame, gray, [36, 37, 38, 39, 40, 41], landmarks, self.contrastThreshold.value())
@@ -159,7 +154,9 @@ class CalibrationWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            init_limit = 10
+            print(hor_dir)
+
+            init_limit = 5
 
             if self.point_detection >= 0:
                 if self.point_detection < init_limit:
@@ -169,22 +166,24 @@ class CalibrationWindow(QWidget):
 
                     posx = (int)((self.width - 50) / 2) * (int)(self.calibrated / 3)
                     posy = (int)((self.height - 75) / 2) * (self.calibrated % 3)
+
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(255, 215, 0, 255))
-                elif self.point_detection <= init_limit + 30:
+                elif self.point_detection < init_limit + 10:
                     self.dir_pos.append([hor_dir, ver_dir])
                     self.point_detection += 1
-                elif self.point_detection == init_limit + 31:
+                elif self.point_detection == init_limit + 10:
                     self.point_detection += 1
                     final_pos = processes.findProbablePos(self.dir_pos)
-                    print (final_pos)
+                    print(final_pos)
                     self.point_pos.append(final_pos)
 
                     posx = (int)((self.width - 50) / 2) * (int)(self.calibrated / 3)
                     posy = (int)((self.height - 75) / 2) * (self.calibrated % 3)
+
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(0, 255, 0, 255))
 
                     self.dir_pos = []
-                elif self.point_detection < init_limit + 45:
+                elif self.point_detection < init_limit + 15:
                     self.point_detection += 1
                 else:
                     self.point_detection = 0
@@ -204,7 +203,7 @@ class CalibrationWindow(QWidget):
                         down = (self.point_pos[2][1] + self.point_pos[5][1] + self.point_pos[8][1]) / 3
                         middle_h = (self.point_pos[1][1] + self.point_pos[4][1] + self.point_pos[7][1]) / 3
                         middle_v = (self.point_pos[3][0] + self.point_pos[4][0] + self.point_pos[5][0]) / 3
-    
+
                         print("left: " + str(left))
                         print("right: " + str(right))
                         print("top: " + str(top))
@@ -221,7 +220,7 @@ class CalibrationWindow(QWidget):
             self.display_image(re_n, "right-eye")
             self.display_image(re_bw, "right-eye-contrast")
 
-        #self.display_image(frame, "face")
+        #cv2.imshow("face", frame)
 
     def saveCalibrationData(self, data):
         f = open("./conf/calibration.dat", "w+")

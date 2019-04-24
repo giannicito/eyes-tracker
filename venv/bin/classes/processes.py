@@ -5,6 +5,7 @@ import dlib
 import cv2
 import numpy as np
 from math import hypot
+from skimage import measure
 
 
 def initialize_opencv():
@@ -42,7 +43,7 @@ def detect_eye_direction(frame, gray, eye_points, facial_landmarks, threshold_va
 
     height, width, _ = frame.shape
     mask = np.zeros((height, width), np.uint8)
-    cv2.polylines(mask, [eye_region], True, 255, 2)
+    #cv2.polylines(mask, [eye_region], True, 255, 2)
     cv2.fillPoly(mask, [eye_region], 255)
     geye = cv2.bitwise_and(gray, gray, mask=mask)
 
@@ -56,8 +57,59 @@ def detect_eye_direction(frame, gray, eye_points, facial_landmarks, threshold_va
 
     eye = cv2.resize(normal_eye, None, fx=1, fy=1)
 
-    _, threshold_eye = cv2.threshold(gray_eye, threshold_value, 255, cv2.THRESH_BINARY)
-    height, width = threshold_eye.shape
+
+    gray_eye = cv2.cvtColor(eye, cv2.COLOR_BGR2GRAY)
+    #eye = cv2.adaptiveThreshold(eye, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+
+    gray_eye = cv2.bilateralFilter(gray_eye, 11, 11, 11)
+    #gray_eye = cv2.GaussianBlur(gray_eye, (5, 5), 0)
+    threshold_eye = cv2.adaptiveThreshold(gray_eye, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 111, 10)
+    #_, threshold_eye = cv2.threshold(threshold_eye, threshold_value, 255, cv2.THRESH_BINARY)
+
+
+    #test
+
+    kernel = np.ones((3, 3), np.uint8)
+
+    #perform erosion
+    threshold_eye = cv2.erode(threshold_eye, kernel, iterations=1)
+
+    kernel = np.ones((11, 11), np.uint8)
+    #removing noise
+    threshold_eye = cv2.morphologyEx(threshold_eye, cv2.MORPH_CLOSE, kernel)
+
+    # inverting the colors, white to black and viceversa
+    th, threshold_eye = cv2.threshold(threshold_eye, 127, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+    cnts, hierarchy = cv2.findContours(threshold_eye, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    if len(cnts) != 0:
+        # draw in blue the contours that were founded
+        #cv2.drawContours(output, contours, -1, 255, 3)
+
+        # find the biggest area
+        c = max(cnts, key=cv2.contourArea)
+        # compute the center of the contour
+        M = cv2.moments(c)
+        try:
+            cX = int(M["m10"] / M["m00"])
+            cY = int(M["m01"] / M["m00"])
+
+            center = (int(cX), int(cY))
+            cv2.circle(eye, center, 10, (0, 255, 0), 2)
+        except:
+            cX = -1
+
+
+        return cX, threshold_eye, eye
+
+    else:
+        return -1, threshold_eye, eye
+
+    #eye = cv2.Canny(threshold_eye, 1, 220)
+
+    #end test
+
+    """height, width = threshold_eye.shape
     left_side_threshold = threshold_eye[0: height, 0: int(width / 2)]
     left_side_white = cv2.countNonZero(left_side_threshold)
 
@@ -71,7 +123,7 @@ def detect_eye_direction(frame, gray, eye_points, facial_landmarks, threshold_va
     else:
         gaze_ratio = left_side_white / right_side_white
 
-    return gaze_ratio, threshold_eye, eye
+    return gaze_ratio, threshold_eye, eye"""
 
 def getEyeTopPosition(eye_top_points, landmarks):
     center_top = midpoint(landmarks.part(eye_top_points[0]), landmarks.part(eye_top_points[1]))
