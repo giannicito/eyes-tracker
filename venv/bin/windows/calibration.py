@@ -44,8 +44,8 @@ class CalibrationWindow(QWidget):
 
         self.contrastThreshold = QSlider(Qt.Horizontal, self)
         self.contrastThreshold.setGeometry(int(self.width / 2) - 125, 450, 250, 25)
-        self.contrastThreshold.setMaximum(150)
-        self.contrastThreshold.setValue(70)
+        self.contrastThreshold.setMaximum(21)
+        self.contrastThreshold.setValue(11)
 
         self.calibButton = QPushButton('Start Calibration', self)
         self.calibButton.setGeometry(int(self.width / 2) - 100, 500, 200, 30)
@@ -154,7 +154,8 @@ class CalibrationWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            print(hor_dir)
+            #print("h: ", hor_dir)
+            #print("v: ", ver_dir)
 
             init_limit = 5
 

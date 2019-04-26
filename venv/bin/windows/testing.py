@@ -109,7 +109,7 @@ class TestingWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            print(hor_dir)
+            #print(hor_dir)
 
             self.frame_pos.append([hor_dir, ver_dir])
 
@@ -119,19 +119,27 @@ class TestingWindow(QWidget):
 
             frame_check = 0
 
-            for i in range(3):
+            if hor_dir > self.middlev_limit + (self.middlev_limit / 8):
+                print("right")
+            elif hor_dir < self.middlev_limit - (self.middlev_limit / 8):
+                print("left")
+            else:
+                print("center")
+
+            """for i in range(3):
                 for j in range(4):
                     left, right, top, bottom, x, y = self.getLimits(i, j)
                     if hor_dir >= left and hor_dir <= right and ver_dir <= top and ver_dir >= bottom:
-                        self.setActiveSide((i * 4) + j, x, hor_dir)
                         if self.window_side == (i * 4) + j:
                             if len(self.frame_pos) >= frame_check:
                                 h, v = self.getAverageXYPoint()
                                 x, y = self.getScreenPosition(h, v, left, right, top, bottom, x, y)
+                                self.setActiveSide((i * 4) + j, h, v)
                                 self.frame_pos = []
                         else:
                             self.window_side = (i * 4) + j
-                            self.frame_pos = []
+                            self.frame_pos = [self.frame_pos[-1]]"""
+            x, y = self.getGlobalPosition(hor_dir, ver_dir, self.left_limit, self.right_limit, self.top_limit, self.bottom_limit)
 
 
         #self.display_image(frame, "face")
@@ -188,12 +196,18 @@ class TestingWindow(QWidget):
         pyautogui.moveTo(x, y)
         return x, y
 
+    def getGlobalPosition(self, h, v, left, right, top, bottom):
+        x = int((h - left) * self.width / (right - left))
+        y = int((top - v) * self.height / (top - bottom))
+        pyautogui.moveTo(x, y)
+        return x, y
+
     def setActiveSide(self, number, x, y):
         for i in range(3):
             for j in range(4):
                 if number == (i * 4) + j:
                     self.tiles[(i * 4) + j].setStyleSheet("QLabel { background-color: rgba(" + self.colors_tiles[(i * 4) + j] + ", 255); }")
-                    #self.tiles[(i * 4) + j].setText(str(x) + "\n" + str(y))
+                    self.tiles[(i * 4) + j].setText(str(x) + "\n" + str(y))
                 else:
                     self.tiles[(i * 4) + j].setStyleSheet("QLabel { background-color: rgba(" + self.colors_tiles[(i * 4) + j] + ", 30); }")
 
@@ -212,13 +226,13 @@ class TestingWindow(QWidget):
             self.contrastThreshold = int(arr[6])
 
         print("data:")
-        print(self.left_limit)
-        print(self.right_limit)
-        print(self.top_limit)
-        print(self.bottom_limit)
-        print(self.middleh_limit)
-        print(self.middlev_limit)
-        print(self.contrastThreshold)
+        print("left: ", self.left_limit)
+        print("right: ", self.right_limit)
+        print("top: ", self.top_limit)
+        print("bottom: ", self.bottom_limit)
+        print("middleh: ", self.middleh_limit)
+        print("middlev: ", self.middlev_limit)
+        print("contrast: ", self.contrastThreshold)
         print("end data")
 
         f.close()

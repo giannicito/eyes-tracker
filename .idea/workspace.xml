@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/venv/bin/windows/testing_v1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/bin/classes/processes.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/classes/processes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/bin/conf/calibration.dat" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/conf/calibration.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/bin/windows/calibration.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/windows/calibration.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/bin/windows/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/windows/testing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/pip-selfcheck.json" beforeDir="false" afterPath="$PROJECT_DIR$/venv/pip-selfcheck.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,22 +17,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/bin/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="21" column="37" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#53#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/bin/windows/calibration.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="156" column="12" selection-start-line="156" selection-start-column="12" selection-end-line="156" selection-end-column="12" />
+            <state relative-caret-position="-104">
+              <caret line="157" column="13" selection-start-line="157" selection-start-column="13" selection-end-line="157" selection-end-column="13" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -45,8 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="453">
+              <caret line="131" column="4" selection-start-line="131" selection-start-column="4" selection-end-line="131" selection-end-column="4" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -57,20 +43,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/venv/bin/windows/testing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="111" column="25" selection-start-line="111" selection-start-column="25" selection-end-line="111" selection-end-column="25" />
+            <state relative-caret-position="1224">
+              <caret line="198" column="17" selection-start-line="198" selection-start-column="17" selection-end-line="198" selection-end-column="17" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -113,9 +90,9 @@
       <find>getCalibrationData</find>
       <find>saveCalibrationData</find>
       <find>self)</find>
-      <find>setActiveSide</find>
       <find>detect_e</find>
       <find>getScreenPosition</find>
+      <find>setActiveSide</find>
     </findStrings>
     <replaceStrings>
       <replace>processes.</replace>
@@ -153,8 +130,8 @@
         <option value="$PROJECT_DIR$/venv/bin/classes/__init__.py" />
         <option value="$PROJECT_DIR$/venv/bin/main.py" />
         <option value="$PROJECT_DIR$/venv/bin/windows/testing_v1.py" />
-        <option value="$PROJECT_DIR$/venv/bin/windows/calibration.py" />
         <option value="$PROJECT_DIR$/venv/bin/classes/processes.py" />
+        <option value="$PROJECT_DIR$/venv/bin/windows/calibration.py" />
         <option value="$PROJECT_DIR$/venv/bin/windows/testing.py" />
       </list>
     </option>
@@ -452,7 +429,14 @@
       <option name="project" value="LOCAL" />
       <updated>1555739891721</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Follow the gaze, attempt 3">
+      <created>1556117975243</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1556117975243</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView">
@@ -556,7 +540,8 @@
     <MESSAGE value="Setting up a testing window" />
     <MESSAGE value="Follow the gaze, attempt 1" />
     <MESSAGE value="Follow the gaze, attempt 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Follow the gaze, attempt 2" />
+    <MESSAGE value="Follow the gaze, attempt 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Follow the gaze, attempt 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -694,13 +679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/numpy/core/numeric.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
@@ -715,16 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/bin/windows/calibration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="156" column="12" selection-start-line="156" selection-start-column="12" selection-end-line="156" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/bin/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -735,10 +703,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/guifiles/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/imageio_download_bin">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#91#100#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/bin/windows/calibration.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-104">
+          <caret line="157" column="13" selection-start-line="157" selection-start-column="13" selection-end-line="157" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/venv/bin/classes/processes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="453">
+          <caret line="131" column="4" selection-start-line="131" selection-start-column="4" selection-end-line="131" selection-end-column="4" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
@@ -747,8 +741,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/bin/windows/testing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="111" column="25" selection-start-line="111" selection-start-column="25" selection-end-line="111" selection-end-column="25" />
+        <state relative-caret-position="1224">
+          <caret line="198" column="17" selection-start-line="198" selection-start-column="17" selection-end-line="198" selection-end-column="17" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
