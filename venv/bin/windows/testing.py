@@ -88,6 +88,13 @@ class TestingWindow(QWidget):
     def update_frame(self):
         _, frame = self.capture.read()
         frame = cv2.flip(frame, 1)
+
+        r = 500.0 / frame.shape[1]
+        dim = (500, int(frame.shape[0] * r))
+
+        # perform the actual resizing of the image and show it
+        frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
+
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces_detected = self.detector(gray, 0)
 
@@ -109,7 +116,7 @@ class TestingWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            #print(hor_dir)
+            print(hor_dir)
 
             self.frame_pos.append([hor_dir, ver_dir])
 
@@ -126,7 +133,7 @@ class TestingWindow(QWidget):
             else:
                 print("center")
 
-            """for i in range(3):
+            for i in range(3):
                 for j in range(4):
                     left, right, top, bottom, x, y = self.getLimits(i, j)
                     if hor_dir >= left and hor_dir <= right and ver_dir <= top and ver_dir >= bottom:
@@ -138,8 +145,8 @@ class TestingWindow(QWidget):
                                 self.frame_pos = []
                         else:
                             self.window_side = (i * 4) + j
-                            self.frame_pos = [self.frame_pos[-1]]"""
-            x, y = self.getGlobalPosition(hor_dir, ver_dir, self.left_limit, self.right_limit, self.top_limit, self.bottom_limit)
+                            self.frame_pos = [self.frame_pos[-1]]
+            #x, y = self.getGlobalPosition(hor_dir, ver_dir, self.left_limit, self.right_limit, self.top_limit, self.bottom_limit)
 
 
         #self.display_image(frame, "face")

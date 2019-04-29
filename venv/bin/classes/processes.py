@@ -57,12 +57,13 @@ def detect_eye_direction(frame, gray, eye_points, facial_landmarks, threshold_va
 
     eye = cv2.resize(normal_eye, None, fx=1, fy=1)
 
-
     gray_eye = cv2.cvtColor(eye, cv2.COLOR_BGR2GRAY)
+
+
     #eye = cv2.adaptiveThreshold(eye, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
 
     gray_eye = cv2.bilateralFilter(gray_eye, 11, 11, 11)
-    #gray_eye = cv2.GaussianBlur(gray_eye, (5, 5), 0)
+    gray_eye = cv2.GaussianBlur(gray_eye, (11, 11), 0)
     threshold_eye = cv2.adaptiveThreshold(gray_eye, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 111, 10)
     #_, threshold_eye = cv2.threshold(threshold_eye, threshold_value, 255, cv2.THRESH_BINARY)
 

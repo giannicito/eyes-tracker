@@ -2,12 +2,9 @@ import cv2
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QPushButton
 from PyQt5.QtGui import QPixmap, QImage, QTransform, QColor, QPainter
-from PyQt5.QtCore import pyqtSlot
 import classes.processes as processes
 from windows.testing import TestingWindow
 import os
-import numpy as np
-import threading
 
 class CalibrationWindow(QWidget):
     def __init__(self, parent=None):
@@ -44,7 +41,8 @@ class CalibrationWindow(QWidget):
 
         self.contrastThreshold = QSlider(Qt.Horizontal, self)
         self.contrastThreshold.setGeometry(int(self.width / 2) - 125, 450, 250, 25)
-        self.contrastThreshold.setMaximum(21)
+        self.contrastThreshold.setMaximum(30)
+        self.contrastThreshold.setMinimum(0)
         self.contrastThreshold.setValue(11)
 
         self.calibButton = QPushButton('Start Calibration', self)
@@ -128,11 +126,13 @@ class CalibrationWindow(QWidget):
         _, frame = self.capture.read()
         frame = cv2.flip(frame, 1)
 
+        r = 500.0 / frame.shape[1]
+        dim = (500, int(frame.shape[0] * r))
 
-        clahe = cv2.createCLAHE(clipLimit=7.0, tileGridSize=(8, 8))
+        # perform the actual resizing of the image and show it
+        frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        gray = clahe.apply(gray)
         faces_detected = self.detector(gray, 0)
 
         if len(faces_detected) > 0:
@@ -154,10 +154,10 @@ class CalibrationWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            #print("h: ", hor_dir)
+            print("h: ", hor_dir)
             #print("v: ", ver_dir)
 
-            init_limit = 5
+            init_limit = 10
 
             if self.point_detection >= 0:
                 if self.point_detection < init_limit:
@@ -169,10 +169,10 @@ class CalibrationWindow(QWidget):
                     posy = (int)((self.height - 75) / 2) * (self.calibrated % 3)
 
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(255, 215, 0, 255))
-                elif self.point_detection < init_limit + 10:
+                elif self.point_detection < init_limit + 50:
                     self.dir_pos.append([hor_dir, ver_dir])
                     self.point_detection += 1
-                elif self.point_detection == init_limit + 10:
+                elif self.point_detection == init_limit + 50:
                     self.point_detection += 1
                     final_pos = processes.findProbablePos(self.dir_pos)
                     print(final_pos)
@@ -184,7 +184,7 @@ class CalibrationWindow(QWidget):
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(0, 255, 0, 255))
 
                     self.dir_pos = []
-                elif self.point_detection < init_limit + 15:
+                elif self.point_detection < init_limit + 60:
                     self.point_detection += 1
                 else:
                     self.point_detection = 0
