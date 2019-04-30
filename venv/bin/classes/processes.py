@@ -75,7 +75,7 @@ def detect_eye_direction(frame, gray, eye_points, facial_landmarks, threshold_va
     #perform erosion
     threshold_eye = cv2.erode(threshold_eye, kernel, iterations=1)
 
-    kernel = np.ones((threshold_value, threshold_value), np.uint8)
+    kernel = np.ones((7, 7), np.uint8)
     #removing noise
     threshold_eye = cv2.morphologyEx(threshold_eye, cv2.MORPH_CLOSE, kernel)
 
@@ -96,7 +96,7 @@ def detect_eye_direction(frame, gray, eye_points, facial_landmarks, threshold_va
             cY = int(M["m01"] / M["m00"])
 
             center = (int(cX), int(cY))
-            cv2.circle(eye, center, 10, (0, 255, 0), 2)
+            cv2.circle(eye, center, 7, (0, 255, 0), 2)
         except:
             cX = -1
 
