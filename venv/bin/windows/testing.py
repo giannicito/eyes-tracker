@@ -1,14 +1,9 @@
-from imutils import face_utils
-import imutils
 import cv2
 import pyautogui
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QWidget, QLabel, QSlider, QPushButton
-from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage, QColor, QPainter, QFont
 import classes.processes as processes
-import os
-import numpy as np
 
 class TestingWindow(QWidget):
     def __init__(self, parent=None):
@@ -27,7 +22,7 @@ class TestingWindow(QWidget):
             "127, 0, 255", "255, 0, 255", "255, 0, 127", "128, 128, 128"
         ]
 
-        keyboard = [
+        self.keyboard = [
             "1",
             "2",
             "3",
@@ -63,20 +58,22 @@ class TestingWindow(QWidget):
             "V",
             "B",
             "N",
-            "M"
+            "M",
+            " "
         ]
 
         # top bar
         self.topBar = QLabel("", self)
         self.topBar.setGeometry(1, 1, self.width - 2, int(self.height / 5) - 1)
-        self.topBar.setAlignment(Qt.AlignCenter)
+        self.topBar.setAlignment(Qt.AlignLeft)
         self.topBar.setStyleSheet("QLabel { border: 1px solid rgba(128, 128, 128, 255); }")
+        self.topBar.setFont(QFont("Calibri", 33, QFont.Bold))
 
         # first line
         y = int(self.height / 5) + 10
         tile_height = int((self.height - y) / 5) - 6
         for i in range(10):
-            label = QLabel(keyboard[i], self)
+            label = QLabel(self.keyboard[i], self)
             label.setGeometry(int(self.width / 10) * i + 1, y, int(self.width / 10) - 2, tile_height)
             label.setAlignment(Qt.AlignCenter)
             label.setStyleSheet("QLabel { border: 1px solid rgba(128, 128, 128, 255); }")
@@ -86,7 +83,7 @@ class TestingWindow(QWidget):
         # second line
         y += tile_height + 2
         for i in range(10):
-            label = QLabel(keyboard[i + 10], self)
+            label = QLabel(self.keyboard[i + 10], self)
             label.setGeometry(int(self.width / 10) * i + 1, y, int(self.width / 10) - 2, tile_height)
             label.setAlignment(Qt.AlignCenter)
             label.setStyleSheet("QLabel { border: 1px solid rgba(128, 128, 128, 255); }")
@@ -96,7 +93,7 @@ class TestingWindow(QWidget):
         # third line
         y += tile_height + 2
         for i in range(9):
-            label = QLabel(keyboard[i + 20], self)
+            label = QLabel(self.keyboard[i + 20], self)
             label.setGeometry(int(self.width / 9) * i + 1, y, int(self.width / 9) - 2, tile_height)
             label.setAlignment(Qt.AlignCenter)
             label.setStyleSheet("QLabel { border: 1px solid rgba(128, 128, 128, 255); }")
@@ -106,7 +103,7 @@ class TestingWindow(QWidget):
         # fourth line
         y += tile_height + 2
         for i in range(7):
-            label = QLabel(keyboard[i + 29], self)
+            label = QLabel(self.keyboard[i + 29], self)
             label.setGeometry(int(self.width / 7) * i + 1, y, int(self.width / 7) - 2, tile_height)
             label.setAlignment(Qt.AlignCenter)
             label.setStyleSheet("QLabel { border: 1px solid rgba(128, 128, 128, 255); }")
@@ -115,7 +112,7 @@ class TestingWindow(QWidget):
 
         # fift line
         y += tile_height + 2
-        label = QLabel("", self)
+        label = QLabel(self.keyboard[36], self)
         label.setGeometry(int(self.width / 4), y, int(self.width / 2), tile_height)
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet("QLabel { border: 1px solid rgba(128, 128, 128, 255); }")
@@ -136,8 +133,10 @@ class TestingWindow(QWidget):
         self.window_side = -1
         self.frame_pos = []
 
-        self.blinking = 0
+        self.blinking = -1
         self.tile = 25
+
+        self.text = ""
 
         self.change_counter = 0
         self.current_direction = 0
@@ -165,8 +164,8 @@ class TestingWindow(QWidget):
         _, frame = self.capture.read()
         frame = cv2.flip(frame, 1)
 
-        r = 500.0 / frame.shape[1]
-        dim = (500, int(frame.shape[0] * r))
+        r = 800.0 / frame.shape[1]
+        dim = (800, int(frame.shape[0] * r))
 
         # perform the actual resizing of the image and show it
         frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
@@ -192,60 +191,75 @@ class TestingWindow(QWidget):
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            #print(hor_dir)
-
             self.frame_pos.append([hor_dir, ver_dir])
 
             if blinking_ratio > 5.7:
+                print("br: ", blinking_ratio)
                 # probably blinking
-                self.blinking += 1
-                if self.blinking >= 4:
-                    print("blinking")
-                    self.blinking = 0
+                self.change_counter = 1
+                if self.blinking >= 0:
+                    self.blinking += 1
+                    if self.blinking >= 5:
+                        print("click")
+                        self.addLetter()
+                        self.blinking = -1
             else:
                 self.blinking = 0
 
-            previous_tile = self.tile
+                previous_tile = self.tile
 
-            if hor_dir > self.middlev_limit + (self.middlev_limit / 8):
-                # right
-                print("right")
-                self.getDecision(1)
-            elif hor_dir < self.middlev_limit - (self.middlev_limit / 8):
-                # left
-                print("left")
-                self.getDecision(2)
-            else:
-                #center
-                print("center")
-                self.getDecision(0)
+                right_limit = ((self.right_limit - self.middlev_limit) / 2)
+                left_limit = ((self.middlev_limit - self.left_limit) / 2)
+                top_limit = ((self.top_limit - self.middleh_limit) / 2)
+                bottom_limit = ((self.middleh_limit - self.bottom_limit) / 2)
 
-            """if ver_dir > self.middleh_limit + (self.middleh_limit / 8):
-                print("top")
-            elif ver_dir < self.middleh_limit - (self.middleh_limit / 8):
-                print("bottom")
-            else:
-                print("center")"""
+                print(hor_dir)
 
-            self.tiles[previous_tile].setStyleSheet("QLabel { border: 1px solid rgb(128, 128, 128) }")
-            self.tiles[self.tile].setStyleSheet("QLabel { background: rgba(128, 128, 128, 150); border: 1px solid rgb(128, 128, 128) }")
+                if hor_dir >= self.right_limit - right_limit:
+                    # right
+                    print("right: ", self.right_limit - right_limit)
+                    self.getDecision(1)
+                elif hor_dir <= self.left_limit + left_limit:
+                    # left
+                    print("left: ", self.left_limit + left_limit)
+                    self.getDecision(2)
+                elif ver_dir >= self.top_limit - top_limit:
+                    #top
+                    print("top: ", self.top_limit - top_limit)
+                    self.getDecision(3)
+                elif ver_dir <= self.bottom_limit + bottom_limit:
+                    #bottom
+                    print("bottom: ", self.bottom_limit + bottom_limit)
+                    self.getDecision(4)
+                else:
+                    #center
+                    print("center")
+                    self.getDecision(0)
 
+                self.tiles[previous_tile].setStyleSheet("QLabel { border: 1px solid rgb(128, 128, 128) }")
+                self.tiles[self.tile].setStyleSheet("QLabel { background: rgba(128, 128, 128, 150); border: 1px solid rgb(128, 128, 128) }")
 
-        #self.display_image(frame, "face")
 
     def getDecision(self, direction):
         if self.current_direction != direction:
-            # direction is different from the previous one
-            # move to the next tile
-            self.tile += self.getMotion(direction)
+
             self.change_counter = 1
             self.current_direction = direction
 
         else:
             # direction is the same of the previous one
             # check if I can move again the tile to the following one
-            if self.change_counter >= 4:
+            if self.change_counter >= 5:
                 self.tile += self.getMotion(direction)
+
+                if self.tile < 0:
+                    self.tile = 36
+                elif self.tile >= 37:
+                    if direction == 4:
+                        self.tile = 4
+                    else:
+                        self.tile = 0
+
                 self.change_counter = 1
 
             else:
@@ -261,75 +275,49 @@ class TestingWindow(QWidget):
             return 1
 
         elif direction == 2:
-            #left
+            # left
             return -1
 
-    def getLimits(self, col, row):
-        if col == 0:
-            x = 0
-            left = self.left_limit
-            right = self.middlev_limit - ((self.middlev_limit - self.left_limit) / 2)
-        elif col == 1:
-            x = int(self.width / 3)
-            left = self.middlev_limit - ((self.middlev_limit - self.left_limit) / 2)
-            right = self.middlev_limit + ((self.right_limit - self.middlev_limit) / 2)
-        else:
-            x = int((self.width * 2) / 3)
-            left = self.middlev_limit + ((self.right_limit - self.middlev_limit) / 2)
-            right = self.right_limit
+        elif direction == 3:
+            # top
+            if self.tile < 29:
+                # first, second and third lines
+                return -10
 
-        if row == 0:
-            y = 0
-            top = self.top_limit
-            bottom = self.top_limit - ((self.top_limit - self.middleh_limit) / 2)
-        elif row == 1:
-            y = int(self.height / 4)
-            top = self.top_limit - ((self.top_limit - self.middleh_limit) / 2)
-            bottom = self.middleh_limit
-        elif row == 2:
-            y = int((self.height / 4) * 2)
-            top = self.middleh_limit
-            bottom = self.middleh_limit - ((self.middleh_limit - self.bottom_limit) / 2)
-        else:
-            y = int((self.height / 4) * 3)
-            top = self.middleh_limit - ((self.middleh_limit - self.bottom_limit) / 2)
-            bottom = self.bottom_limit
+            elif self.tile >= 29 and self.tile < 36:
+                # fourth line
+                return -9
 
-        return left, right, top, bottom, x, y
+            else:
+                # fifth line
+                return -4
+
+        elif direction == 4:
+            # bottom
+            if self.tile < 10:
+                # first, second and third lines
+                return 10
+
+            elif self.tile < 20:
+                # second line
+                return 9
+
+            elif self.tile < 29:
+                # third line
+                return 7
+
+            elif self.tile < 36:
+                # fourth line
+                return 36 - self.tile
+
+            else:
+                # fifth line
+                return 1
 
 
-    def getAverageXYPoint(self):
-        x = 0
-        y = 0
-        for i in range(len(self.frame_pos)):
-            x += self.frame_pos[i][0]
-            y += self.frame_pos[i][1]
-
-        x /= len(self.frame_pos)
-        y /= len(self.frame_pos)
-
-        return x, y
-
-    def getScreenPosition(self, h, v, left, right, top, bottom, x1, y1):
-        x = int((h - left) * (self.width / 3) / (right - left)) + x1
-        y = int((top - v) * (self.height / 4) / (top - bottom)) + y1
-        pyautogui.moveTo(x, y)
-        return x, y
-
-    def getGlobalPosition(self, h, v, left, right, top, bottom):
-        x = int((h - left) * self.width / (right - left))
-        y = int((top - v) * self.height / (top - bottom))
-        pyautogui.moveTo(x, y)
-        return x, y
-
-    def setActiveSide(self, number, x, y):
-        for i in range(3):
-            for j in range(4):
-                if number == (i * 4) + j:
-                    self.tiles[(i * 4) + j].setStyleSheet("QLabel { background-color: rgba(" + self.colors_tiles[(i * 4) + j] + ", 255); }")
-                    self.tiles[(i * 4) + j].setText(str(x) + "\n" + str(y))
-                else:
-                    self.tiles[(i * 4) + j].setStyleSheet("QLabel { background-color: rgba(" + self.colors_tiles[(i * 4) + j] + ", 30); }")
+    def addLetter(self):
+        self.text += self.keyboard[self.tile]
+        self.topBar.setText(self.text)
 
 
     def getCalibrationData(self):
@@ -356,54 +344,5 @@ class TestingWindow(QWidget):
         print("end data")
 
         f.close()
-
-
-    def display_image(self, img, window, pixmap=None):
-        if img is not None:
-            # Makes OpenCV images displayable on PyQT, displays them
-            qformat = QImage.Format_Indexed8
-            if len(img.shape) == 3:
-                if img.shape[2] == 4:  # RGBA
-                    qformat = QImage.Format_RGBA8888
-                else:  # RGB
-                    qformat = QImage.Format_RGB888
-
-            out_image = QImage(img, img.shape[1], img.shape[0], img.strides[0], qformat)  # BGR to RGB
-            out_image = out_image.rgbSwapped()
-
-            if window == 'face':  # main window
-                self.baseImage.setPixmap(QPixmap.fromImage(out_image))
-                self.baseImage.setScaledContents(True)
-            if window == 'left-eye':  # left eye window
-                self.leftEye.setPixmap(QPixmap.fromImage(out_image))
-                self.leftEye.setScaledContents(True)
-            if window == 'left-eye-contrast':  # left eye contrast
-                self.leftEyeBW.setPixmap(QPixmap.fromImage(out_image))
-                self.leftEyeBW.setScaledContents(True)
-            if window == 'right-eye':  # right eye window
-                self.rightEye.setPixmap(QPixmap.fromImage(out_image))
-                self.rightEye.setScaledContents(True)
-            if window == 'right-eye-contrast':  # right eye window
-                self.rightEyeBW.setPixmap(QPixmap.fromImage(out_image))
-                self.rightEyeBW.setScaledContents(True)
-        else:
-            if window == 'top-arrow':
-                self.topArrow.setPixmap(pixmap)
-                self.topArrow.setScaledContents(True)
-            if window == 'down-arrow':
-                self.downArrow.setPixmap(pixmap)
-                self.downArrow.setScaledContents(True)
-            if window == 'left-arrow':
-                self.leftArrow.setPixmap(pixmap)
-                self.leftArrow.setScaledContents(True)
-            if window == 'right-arrow':
-                self.rightArrow.setPixmap(pixmap)
-                self.rightArrow.setScaledContents(True)
-            if window == 'center-circle':
-                self.centerCircle.setPixmap(pixmap)
-                self.centerCircle.setScaledContents(True)
-            if window == 'goal-point':
-                self.targetPoint.setPixmap(pixmap)
-                self.targetPoint.setScaledContents(True)
 
 

@@ -41,9 +41,9 @@ class CalibrationWindow(QWidget):
 
         self.contrastThreshold = QSlider(Qt.Horizontal, self)
         self.contrastThreshold.setGeometry(int(self.width / 2) - 125, 450, 250, 25)
-        self.contrastThreshold.setMaximum(30)
-        self.contrastThreshold.setMinimum(0)
-        self.contrastThreshold.setValue(11)
+        self.contrastThreshold.setMaximum(241)
+        self.contrastThreshold.setMinimum(71)
+        self.contrastThreshold.setValue(111)
 
         self.calibButton = QPushButton('Start Calibration', self)
         self.calibButton.setGeometry(int(self.width / 2) - 100, 500, 200, 30)
@@ -126,8 +126,8 @@ class CalibrationWindow(QWidget):
         _, frame = self.capture.read()
         frame = cv2.flip(frame, 1)
 
-        r = 500.0 / frame.shape[1]
-        dim = (500, int(frame.shape[0] * r))
+        r = 800.0 / frame.shape[1]
+        dim = (800, int(frame.shape[0] * r))
 
         # perform the actual resizing of the image and show it
         frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
@@ -142,22 +142,22 @@ class CalibrationWindow(QWidget):
             landmarks = self.predict(gray, face)
 
             # Detect blinking
-            left_eye_ratio = processes.get_blinking_ratio([36, 37, 38, 39, 40, 41], landmarks)
+            """left_eye_ratio = processes.get_blinking_ratio([36, 37, 38, 39, 40, 41], landmarks)
             right_eye_ratio = processes.get_blinking_ratio([42, 43, 44, 45, 46, 47], landmarks)
-            blinking_ratio = (left_eye_ratio + right_eye_ratio) / 2
+            blinking_ratio = (left_eye_ratio + right_eye_ratio) / 2"""
 
 
             # detect eye direction
-            le_direction, le_bw, le_n = processes.detect_eye_direction(frame, gray, [36, 37, 38, 39, 40, 41], landmarks, self.contrastThreshold.value())
-            re_direction, re_bw, re_n = processes.detect_eye_direction(frame, gray, [42, 43, 44, 45, 46, 47], landmarks, self.contrastThreshold.value())
+            le_direction, le_bw, le_n = processes.detect_eye_direction(frame, [36, 37, 38, 39, 40, 41], landmarks, self.contrastThreshold.value())
+            re_direction, re_bw, re_n = processes.detect_eye_direction(frame, [42, 43, 44, 45, 46, 47], landmarks, self.contrastThreshold.value())
 
             hor_dir = (le_direction + re_direction) / 2
             ver_dir = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
 
-            print("h: ", hor_dir)
-            #print("v: ", ver_dir)
+            #print("h: ", hor_dir)
+            #print("v: ", blinking_ratio)
 
-            init_limit = 10
+            init_limit = 5
 
             if self.point_detection >= 0:
                 if self.point_detection < init_limit:
@@ -169,10 +169,10 @@ class CalibrationWindow(QWidget):
                     posy = (int)((self.height - 75) / 2) * (self.calibrated % 3)
 
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(255, 215, 0, 255))
-                elif self.point_detection < init_limit + 50:
+                elif self.point_detection < init_limit + 15:
                     self.dir_pos.append([hor_dir, ver_dir])
                     self.point_detection += 1
-                elif self.point_detection == init_limit + 50:
+                elif self.point_detection == init_limit + 15:
                     self.point_detection += 1
                     final_pos = processes.findProbablePos(self.dir_pos)
                     print(final_pos)
@@ -184,7 +184,7 @@ class CalibrationWindow(QWidget):
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(0, 255, 0, 255))
 
                     self.dir_pos = []
-                elif self.point_detection < init_limit + 60:
+                elif self.point_detection < init_limit + 20:
                     self.point_detection += 1
                 else:
                     self.point_detection = 0
@@ -221,7 +221,6 @@ class CalibrationWindow(QWidget):
             self.display_image(re_n, "right-eye")
             self.display_image(re_bw, "right-eye-contrast")
 
-        #cv2.imshow("face", frame)
 
     def saveCalibrationData(self, data):
         f = open("./conf/calibration.dat", "w+")

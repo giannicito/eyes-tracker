@@ -1,14 +1,7 @@
 from gtts import gTTS
-from tempfile import TemporaryFile
-from pygame import mixer
+from playsound import playsound
 
-tts = gTTS(text='Good morning', lang='en')
-mixer.init()
+tts = gTTS(text='HELLO GIANNI', lang='en')
+tts.save("audio/test.mp3")
 
-sf = TemporaryFile()
-tts.write_to_fp(sf)
-sf.seek(0)
-
-mixer.music.load(sf)
-mixer.music.set_volume(100)
-mixer.music.play()
+playsound("audio/test.mp3")
