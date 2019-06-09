@@ -1,7 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from windows.calibration import CalibrationWindow
-from windows.testing import TestingWindow
-import os
+from frames.calibration import CalibrationWindow
 import sys
 
 class MainWindow(QMainWindow):
@@ -14,10 +12,10 @@ class MainWindow(QMainWindow):
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
 
-        self.startCalibrationWindow()
+        # calibration data
+        self.calibrationData = [0, 0, 0, 0, 0, 0, 31]
 
-    def startInitialWindow(self):
-        print("start initial window")
+        self.startCalibrationWindow()
 
     def startCalibrationWindow(self):
         self.calibration = CalibrationWindow(self)
@@ -25,10 +23,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.calibration)
         self.showMaximized()
 
-
-
-
 app = QApplication(sys.argv)
 window = MainWindow()
-window.setWindowTitle("Main Window")
+window.setWindowTitle("EyeHelpYou")
 sys.exit(app.exec_())

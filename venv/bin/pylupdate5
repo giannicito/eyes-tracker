@@ -1,4 +1,4 @@
-#!/Users/giannicito/PycharmProjects/EyesTracker/venv/bin/python
+#!/Users/giannicito/PycharmProjects/eyes-tracking/venv/bin/python
 
 # -*- coding: utf-8 -*-
 import re

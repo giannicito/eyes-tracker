@@ -1,4 +1,3 @@
-from imutils import face_utils
 import dlib
 import cv2
 import numpy as np
@@ -10,12 +9,9 @@ import os
 
 def initialize_opencv():
     detect = dlib.get_frontal_face_detector()
-    predict = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")  # Dat file is the crux of the code
+    predict = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
-    (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["left_eye"]
-    (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_68_IDXS["right_eye"]
-
-    return [lStart, lEnd], [rStart, rEnd], detect, predict
+    return detect, predict
 
 def midpoint(p1 ,p2):
     return int((p1.x + p2.x)/2), int((p1.y + p2.y)/2)
@@ -40,24 +36,18 @@ def detect_eye_direction(frame, eye_points, facial_landmarks, threshold_value=70
                                 (facial_landmarks.part(eye_points[4]).x, facial_landmarks.part(eye_points[4]).y),
                                 (facial_landmarks.part(eye_points[5]).x, facial_landmarks.part(eye_points[5]).y)], np.int32)
 
-    height, width, _ = frame.shape
-    mask = np.zeros((height, width), np.uint8)
-    cv2.polylines(mask, [eye_region], True, 255, 2)
-    cv2.fillPoly(mask, [eye_region], 255)
-    #geye = cv2.bitwise_and(gray, gray, mask=mask)
-
     min_x = np.min(eye_region[:, 0])
     max_x = np.max(eye_region[:, 0])
     min_y = np.min(eye_region[:, 1])
     max_y = np.max(eye_region[:, 1])
 
-    #gray_eye = geye[min_y: max_y, min_x: max_x]
     normal_eye = frame[min_y: max_y, min_x: max_x]
 
     eye = cv2.resize(normal_eye, None, fx=1, fy=1)
 
     gray_eye = cv2.cvtColor(eye, cv2.COLOR_BGR2GRAY)
 
+    # image filtering
     gray_eye = cv2.GaussianBlur(gray_eye, (11, 11), 0)
     gray_eye = cv2.bilateralFilter(gray_eye, 11, 11, 11)
 
@@ -80,12 +70,9 @@ def detect_eye_direction(frame, eye_points, facial_landmarks, threshold_value=70
     cnts, hierarchy = cv2.findContours(threshold_eye, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     if len(cnts) != 0:
-        # draw in blue the contours that were founded
-        #cv2.drawContours(output, contours, -1, 255, 3)
-
-        # find the biggest area
+        # find the biggest area among that one found
         c = max(cnts, key=cv2.contourArea)
-        # compute the center of the contour
+        # evaluate the center of the contour
         M = cv2.moments(c)
         try:
             cX = int(M["m10"] / M["m00"])
@@ -113,10 +100,18 @@ def convertTextToAudio(txt, language="en"):
     path = "audio/" + str(uuid.uuid4()) + ".mp3"
     tts.save(path)
 
-    playAudio(path)
-
-def playAudio(path):
     playsound(path)
-
-    # delete file to free disk space
+    os.system("start " + path)
     os.remove(path)
+
+def findProbablePos(pos):
+    sum_x = 0
+    sum_y = 0
+    for i in range(len(pos)):
+        sum_x += pos[i][0]
+        sum_y += pos[i][1]
+
+    sum_x /= len(pos)
+    sum_y /= len(pos)
+
+    return [sum_x, sum_y]
