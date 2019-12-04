@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/bin/frames/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/bin/frames/calibration.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/calibration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/bin/frames/keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/keyboard.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,54 +19,6 @@
         <option value="Python Script" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>thresh</find>
-      <find>self.Thresh</find>
-      <find>self.thresh</find>
-      <find>pupil_pos</find>
-      <find>trackLeftEye</find>
-      <find>calibrated</find>
-      <find>point_detection</find>
-      <find>dir_pos</find>
-      <find>point_pos</find>
-      <find>old_face</find>
-      <find>turnOnDirectionArrow</find>
-      <find>contrastThreshold</find>
-      <find>window_side</find>
-      <find>frame_pos</find>
-      <find>tile</find>
-      <find>change_counter</find>
-      <find>current_direction</find>
-      <find>getDecision</find>
-      <find>QPixmap</find>
-      <find>goal-point</find>
-      <find>text</find>
-      <find>convertTextToAudio</find>
-      <find>targetPoint</find>
-      <find>align</find>
-      <find>setpixmap</find>
-      <find>hello</find>
-      <find>arrow.png</find>
-      <find>arrow</find>
-      <find>getArrowPixmap</find>
-      <find>display_image</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>processes.</replace>
-      <replace>eyeArr</replace>
-      <replace>MainWindow</replace>
-      <replace>targetPoint</replace>
-      <replace>bottom_limit</replace>
-      <replace>self.calibButton</replace>
-      <replace>(i * 4) + j</replace>
-      <replace>self.frame)</replace>
-      <replace>landmarks</replace>
-      <replace>eye_points</replace>
-      <replace>startUsingKeyboard</replace>
-      <replace>appButton</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -110,7 +64,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="EyesTracker" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -176,8 +130,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.main2" />
       </list>
     </recent_temporary>
@@ -305,7 +259,14 @@
       <option name="project" value="LOCAL" />
       <updated>1560069919277</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Conclusion of the project">
+      <created>1575470046316</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1575470046316</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">

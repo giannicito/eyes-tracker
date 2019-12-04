@@ -214,7 +214,7 @@ class KeyboardWindow(QWidget):
             ver_dir = (lCy + rCy) / 2
 
             if blinking_ratio > 5.3:
-                print("br: ", blinking_ratio)
+                # print("br: ", blinking_ratio)
                 # probably blinking
                 self.change_counter = 1
                 self.blinking += 1

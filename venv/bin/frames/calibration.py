@@ -164,7 +164,7 @@ class CalibrationWindow(QWidget):
                     self.getArrowPixmap(self.circle, "goal-point", [posx, posy], color=QColor(255, 0, 0, 255))
 
                     if self.calibrated >= 9:
-                        print("calibration process completed.\n\n")
+                        # print("calibration process completed.\n\n")
                         self.point_detection = -1
 
                         left = (self.point_pos[0][0] + self.point_pos[1][0] + self.point_pos[2][0]) / 3
@@ -174,13 +174,13 @@ class CalibrationWindow(QWidget):
                         middle_h = (self.point_pos[1][1] + self.point_pos[4][1] + self.point_pos[7][1]) / 3
                         middle_v = (self.point_pos[3][0] + self.point_pos[4][0] + self.point_pos[5][0]) / 3
 
-                        print("left: " + str(left))
-                        print("right: " + str(right))
-                        print("top: " + str(top))
-                        print("down: " + str(down))
-                        print("middle_horizontal: " + str(middle_h))
-                        print("middle_vertical: " + str(middle_v))
-                        print("\n")
+                        # print("left: " + str(left))
+                        # print("right: " + str(right))
+                        # print("top: " + str(top))
+                        # print("down: " + str(down))
+                        # print("middle_horizontal: " + str(middle_h))
+                        # print("middle_vertical: " + str(middle_v))
+                        # print("\n")
 
                         self.parent.calibrationData = [left, right, top, down, middle_h, middle_v, self.contrastThreshold.value()]
 
