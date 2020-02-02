@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/preview-images/calibration.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/calibration_points.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/detected_face.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/facial_landmarks.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/frame1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/frame2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/frame3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/gaze_areas.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/keyboard_window.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/pip-selfcheck.json" beforeDir="false" afterPath="$PROJECT_DIR$/venv/pip-selfcheck.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,10 +31,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
-  </component>
   <component name="ProjectId" id="1UWPpY8s3P8erV3iwo6simsckBl" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -34,7 +42,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/preview-images" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -47,6 +55,7 @@
       <recent name="$PROJECT_DIR$/venv/bin/class" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/preview-images" />
       <recent name="$PROJECT_DIR$/venv/bin/image" />
       <recent name="$PROJECT_DIR$/venv/bin" />
       <recent name="$PROJECT_DIR$/venv/bin/windows" />
@@ -274,7 +283,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575470381513</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Add README file">
+      <created>1580643284645</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1580643284645</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TodoView">
@@ -330,17 +346,26 @@
     <MESSAGE value="Sound to text added" />
     <MESSAGE value="Sound to text added 1" />
     <MESSAGE value="Conclusion of the project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Conclusion of the project" />
+    <MESSAGE value="Add README file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add README file" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580643258618">
+    <state x="344" y="54" key="CommitChangelistDialog2" timestamp="1580643284279">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580643258618" />
-    <state x="412" y="248" key="git4idea.merge.GitPullDialog" timestamp="1580643189042">
+    <state x="344" y="54" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1580643284279" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580643298262">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="412" y="248" key="git4idea.merge.GitPullDialog/0.0.1440.900@0.0.1440.900" timestamp="1580643189042" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580643298262" />
+    <state x="503" y="374" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580643687277">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="503" y="374" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1580643687277" />
+    <state x="412" y="248" key="git4idea.merge.GitPullDialog" timestamp="1580643764728">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="412" y="248" key="git4idea.merge.GitPullDialog/0.0.1440.900@0.0.1440.900" timestamp="1580643764728" />
     <state x="496" y="321" key="git4idea.rebase.GitRebaseDialog" timestamp="1580643149722">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
