@@ -119,12 +119,12 @@ class CalibrationWindow(QWidget):
             landmarks = self.predict(gray, face)
 
             # detect eye direction
-            lCx, le_bw, le_n = processes.detect_eye_direction(frame, [36, 37, 38, 39, 40, 41], landmarks, self.contrastThreshold.value())
-            rCx, re_bw, re_n = processes.detect_eye_direction(frame, [42, 43, 44, 45, 46, 47], landmarks, self.contrastThreshold.value())
+            lCx, le_bw, le_n = processes.detectEyeDirection(frame, [36, 37, 38, 39, 40, 41], landmarks, self.contrastThreshold.value())
+            rCx, re_bw, re_n = processes.detectEyeDirection(frame, [42, 43, 44, 45, 46, 47], landmarks, self.contrastThreshold.value())
             hor_dir = (lCx + rCx) / 2
 
-            lCy = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
-            rCy = processes.getEyeTopPosition([43, 44, 47, 46], landmarks)
+            lCy = processes.getEyeTopDownLooking([37, 38, 41, 40], landmarks)
+            rCy = processes.getEyeTopDownLooking([43, 44, 47, 46], landmarks)
             ver_dir = (lCy + rCy) / 2
 
             init_limit = 5

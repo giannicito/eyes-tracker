@@ -16,7 +16,7 @@ def initialize_opencv():
 def midpoint(p1 ,p2):
     return int((p1.x + p2.x)/2), int((p1.y + p2.y)/2)
 
-def get_blinking_ratio(eye_points, facial_landmarks):
+def getBlinkingRatio(eye_points, facial_landmarks):
     left_point = (facial_landmarks.part(eye_points[0]).x, facial_landmarks.part(eye_points[0]).y)
     right_point = (facial_landmarks.part(eye_points[3]).x, facial_landmarks.part(eye_points[3]).y)
     center_top = midpoint(facial_landmarks.part(eye_points[1]), facial_landmarks.part(eye_points[2]))
@@ -28,7 +28,7 @@ def get_blinking_ratio(eye_points, facial_landmarks):
     ratio = hor_line_lenght / ver_line_lenght
     return ratio
 
-def detect_eye_direction(frame, eye_points, facial_landmarks, threshold_value=70):
+def detectEyeDirection(frame, eye_points, facial_landmarks, threshold_value=70):
     eye_region = np.array([(facial_landmarks.part(eye_points[0]).x, facial_landmarks.part(eye_points[0]).y),
                                 (facial_landmarks.part(eye_points[1]).x, facial_landmarks.part(eye_points[1]).y),
                                 (facial_landmarks.part(eye_points[2]).x, facial_landmarks.part(eye_points[2]).y),
@@ -90,9 +90,9 @@ def detect_eye_direction(frame, eye_points, facial_landmarks, threshold_value=70
     else:
         return -1, threshold_eye, eye
 
-def getEyeTopPosition(eye_top_points, landmarks):
-    center_top = midpoint(landmarks.part(eye_top_points[0]), landmarks.part(eye_top_points[1]))
-    center_bottom = midpoint(landmarks.part(eye_top_points[2]), landmarks.part(eye_top_points[3]))
+def getEyeTopDownLooking(eye_points, landmarks):
+    center_top = midpoint(landmarks.part(eye_points[0]), landmarks.part(eye_points[1]))
+    center_bottom = midpoint(landmarks.part(eye_points[2]), landmarks.part(eye_points[3]))
 
     return hypot((center_top[0] - center_bottom[0]), (center_top[1] - center_bottom[1]))
 

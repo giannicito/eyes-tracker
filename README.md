@@ -1,5 +1,8 @@
 # Non-intrusive eye tracking application in helping paralyzed people communicate
 
+Watch the video:
+[![Watch the video](https://img.youtube.com/vi/6mvg7_E7_cU/maxresdefault.jpg)](https://youtu.be/6mvg7_E7_cU)
+
 
 Nowadays, there are diseases that weaken the person to the point of making them totally paralyzed, making them unable to communicate with those persons that are around because perhaps illness or paralysis makes impossible for them to produce sounds. This is why I thought to develop a software which read the movement of their eyes, making these people "autonomous" even if only communicating some of their needs or thoughts. The diseases that inspires me for the realization of this software are mainly the ALS (Amyotrophic Lateral Sclerosis) and the Rett Syndrome. For these, but also for many other pathologies, there are already devices similar to the one proposed in my thesis and in this project that allow communication through eyes movements but these are made available to very few patients or are really expensive.
 
@@ -327,8 +330,8 @@ Let’s take a look of the snippets of code that extract the eyes regions:
         leye_points = [36, 37, 38, 39, 40, 41]
         reye_points = [42, 43, 44, 45, 46, 47]
 
-        leftEye = getEyeRegion(frame, leye_points, landmarks)
-        rightEye = getEyeRegion(frame, reye_points, landmarks)
+        leftEye = detectEyeDirection(frame, leye_points, landmarks)
+        rightEye = detectEyeDirection(frame, reye_points, landmarks)
         
         cv2.imshow('Left Eye', leftEye)
         cv2.imshow('Right Eye', rightEye)
@@ -355,7 +358,7 @@ let’s focus our attention on the next snippet code, which will be that one con
 needed to extract the eye.
 
 ```python
-def getEyeRegion(frame, eye_points, facial_landmarks):
+def detectEyeDirection(frame, eye_points, facial_landmarks):
     eye_region = np.array([(facial_landmarks.part(eye_points[0]).x, facial_landmarks.part(eye_points[0]).y),
                                 (facial_landmarks.part(eye_points[1]).x, facial_landmarks.part(eye_points[1]).y),
                                 (facial_landmarks.part(eye_points[2]).x, facial_landmarks.part(eye_points[2]).y),
@@ -431,7 +434,7 @@ function code that will produce this as output: the next snippet code, which wil
 needed to extract the eye.
 
 ```python
-def getEyeRegion(frame, eye_points, facial_landmarks, threshold_value=70):
+def detectEyeDirection(frame, eye_points, facial_landmarks, threshold_value=70):
     ...
     eye = frame[min_y: max_y, min_x: max_x]
 
@@ -461,7 +464,7 @@ def getEyeRegion(frame, eye_points, facial_landmarks, threshold_value=70):
     ...
 ```
 
-In this first snippet of code of the function ```getEyeRegion()```, that was
+In this first snippet of code of the function ```detectEyeDirection()```, that was
 implemented in our project in the previous chapter, we take the eye frame region already captured
 and we start working on it. We firstly convert the eye region in a greyscale image, in order to use
 thresholding and smoothing functionalities.
@@ -574,12 +577,12 @@ following way:
         leye_points = [36, 37, 38, 39, 40, 41]
         reye_points = [42, 43, 44, 45, 46, 47]
 
-        leftEye = getEyeRegion(frame, leye_points, landmarks)
-        rightEye = getEyeRegion(frame, reye_points, landmarks)
+        leftEye = detectEyeDirection(frame, leye_points, landmarks)
+        rightEye = detectEyeDirection(frame, reye_points, landmarks)
         
         # detect eye direction
-        lCx, bwLeftEye, leftEye = getEyeRegion(frame, leye_points, landmarks)
-        rCx, bwRightEye, rightEye = getEyeRegion(frame, reye_points, landmarks)
+        lCx, bwLeftEye, leftEye = detectEyeDirection(frame, leye_points, landmarks)
+        rCx, bwRightEye, rightEye = detectEyeDirection(frame, reye_points, landmarks)
                 
         cv2.imshow('Thresholded Left Eye', bwLeftEye)
         cv2.imshow('Thresholded Right Eye', bwRightEye)
@@ -592,7 +595,7 @@ following way:
 
 In the above snippet of code, we can see the lines of code needed for each eye to
 detect its iris and then show the results on the screen. For each eye, the first parameter returned by
-the ```getEyeRegion()``` function will be the center horizontal coordinate of the detected iris, the second
+the ```detectEyeDirection()``` function will be the center horizontal coordinate of the detected iris, the second
 one will be the black and white iris frame and the last one will be the eye frame with the green
 circle around the iris center. Let’s see what we got from the above operations:
 
@@ -610,10 +613,171 @@ detected even if its shape sometimes may be deformed due to thresholding, filter
 operations losses.
 
 
+## 5. Gaze Tracking
+
+What we are going to see in this chapter is the method developed to understand in which
+direction the user is looking. The approach I chose to use to evaluate whether the user is looking
+will not tell us for the moment if he is looking on the left or on the right or on the top rather than on
+the bottom of the screen. It will produce two coordinates, let’s call them ```hor_dir``` and ```ver_dir```,
+which will help us later to know where the user is focusing its gaze on the screen. The ```hor_dir```
+value is the average value between the center horizontal coordinates found in the previous chapter,
+whereas the ```ver_dir``` is the average value between the vertical values that we are going to calculate
+in this chapter. Let’s see better what we are talking about looking at this snippet of code:
+
+```python 
+def midpoint(p1 ,p2):
+    return int((p1.x + p2.x)/2), int((p1.y + p2.y)/2)
+   
+def getEyeTopDownLooking(eye_points, landmarks):
+    center_top = midpoint(landmarks.part(eye_points[0]), landmarks.part(eye_points[1]))
+    center_bottom = midpoint(landmarks.part(eye_points[2]), landmarks.part(eye_points[3]))
+
+    return hypot((center_top[0] - center_bottom[0]), (center_top[1] - center_bottom[1]))
+```
+
+In the above code, we can see those functions that we are going to use to
+evaluate a numerical value that later will tell us where the user is looking on the y-axis. Let’s
+analyze the ```getEyeTopDownLooking()``` function before, because the ```midpoint()``` function is called
+inside. It is important to make an assumption before keeping explaining the operation performed by
+this function. During the evaluation of the center of the iris, we don’t care about the
+Cy coordinate for one reason. If you move your gaze looking up, you will notice that the eyelids
+play the most important role. The same thing happens if we look down. They let us know what our
+eyes are looking on. This is the most important thing to keep in mind to evaluate correctly the yaxis
+value. If the eyes look up, the eyelids will tend to open, whereas if they look down the eyelids
+will tend to close. Evaluating these values we will know the gaze direction on the y-axis.
+In the first lines we pass the top and the bottom extreme landmarks, to get their average point
+calling the ```midpoint()``` function. What we will get as output will be a tuple like (Mx, My), where
+Mx will be the average horizontal point and My the average vertical point. In the end we will
+evaluate the Euclidean norm of the difference between Mx and My values of the center and of
+the bottom landmarks average points, using the function hypot() included in the math library. This
+value will be returned in the next part of code:
+
+```python    
+        ...
+
+        # detect eye direction
+        lCx, bwLeftEye, leftEye = detectEyeDirection(frame, leye_points, landmarks)
+        rCx, bwRightEye, rightEye = detectEyeDirection(frame, reye_points, landmarks)
+        
+        hor_dir = (lCx + rCx) / 2
+
+        lCy = processes.getEyeTopDownLooking([37, 38, 41, 40], landmarks)
+        rCy = processes.getEyeTopDownLooking([43, 44, 47, 46], landmarks)
+
+        ver_dir = (lCy + rCy) / 2
+
+        cv2.imshow('Thresholded Left Eye', bwLeftEye)
+        cv2.imshow('Thresholded Right Eye', bwRightEye)
+
+        ...
+```
+
+In the above snippet of code, we can see how ```hor_dir``` and ```ver_dir``` are evaluated.
+The first one takes the Cx coordinate of the left and right eye and calculate its average point. The
+same thing is done with the Cy coordinate for the evaluation of the ```ver_dir``` value. As you may
+have noticed, the landmarks passed in the array for the ```getEyeTopDownLooking()``` function are
+those on the top and on the bottom margin of the eye. You may take a look on the following image
+to understand better what they stay for:
+
+![](preview-images/vertical_landmarks.jpg)
+
+The values obtained will change from screen size to screen size. They are really useful to
+make the software scalable and comfortable for every kind of user who want to use the application
+developed in this project, because they break down every limit or requirements to use it. The main
+approach to work with ```hor_dir``` and ```ver_dir``` values is depicted in the following figure:
+
+![](preview-images/monitor_calibration_with_gaze.jpg)
+
+In the above image, we can notice and see how the user screen will be divided in
+direction areas. Let’s make some explanation in order to understand better what is depicted in the
+above picture. First of all, we can see that there are 9 targets, eight on the borders and one in the
+center. The targets shown in the calibration window
+are really useful to understand the boundaries of the screen, based on user gaze. Once we have
+collected all these targets coordinates, that in other words are ```(hor_dir, ver_dir)``` coordinates
+based on user gaze focus position, we can move to the keyboard window.
+
+In this window, we will use the previous target coordinates to move a cursor inside between
+the keyboard tiles. This motion is made with the user gaze when a certain area, that is depicted in
+the previous figure, is focused. In other words, the user is going to use his eyes movements as the four
+arrows (left, right, top, bottom). Once he will want to press a button, he will just have to close his
+eyes for less than 1 second and the button will be pressed. The software is able to understand where
+the eyes blinking is naturally or forced by the person, otherwise more buttons would be wrongly
+pressed.
+The blinking process will be shown in the next section.
 
 
+## 6. Blinking Detection
 
+Let’s see the last thing that we need in our project to make everything works correctly. In the
+moment the user is going to move their eyes in any direction and the desired button will be caught,
+to press it the user will have to blink his eyes for more than 1 second, just to not confuse it with a
+natural eyelid blink process.
 
+Let’s start immediately analyzing the code to detect this effect on the user face:
+
+```python 
+def getBlinkingRatio(eye_points, facial_landmarks):
+    left_point = (facial_landmarks.part(eye_points[0]).x, facial_landmarks.part(eye_points[0]).y)
+    right_point = (facial_landmarks.part(eye_points[3]).x, facial_landmarks.part(eye_points[3]).y)
+    center_top = midpoint(facial_landmarks.part(eye_points[1]), facial_landmarks.part(eye_points[2]))
+    center_bottom = midpoint(facial_landmarks.part(eye_points[5]), facial_landmarks.part(eye_points[4]))
+
+    hor_line_lenght = hypot((left_point[0] - right_point[0]), (left_point[1] - right_point[1]))
+    ver_line_lenght = hypot((center_top[0] - center_bottom[0]), (center_top[1] - center_bottom[1]))
+
+    ratio = hor_line_lenght / ver_line_lenght
+    return ratio
+```
+
+As shown in the snippet of code above, we can take a look of the function
+needed to detect the blinking ratio. As the previous functions, also in this one, we use the facial
+landmarks to detect the position of the eyelids, which have a fundamental role to know when the
+user is blinking his eyes. In the first rows, we initialized 4 points made by (x, y) - coordinates,
+left, top, right and bottom coordinates. The left and the right one, will be evaluated by their
+coordinates. The center top and bottom points, instead, will be evaluated using one coordinate of
+one landmark and the remaining coordinate of the other landmark.
+
+Once those calculation are computed, we can use the ```hypot()``` function to apply the Euclidean
+norm to the opposite direction points, that is on the left and right coordinates and on the top and
+bottom coordinates. These norms will be useful to obtaine the numerical value of the horizontal
+and vertical line created joining the points that mutually see each other. So in other words, left and
+right points form the horizontal line, whereas the top and bottom points form the vertical line.
+
+To understand better how the effect works, we can see the following eyes figures that shows
+graphically the method used.
+
+![](preview-images/blinking_effect.jpg)
+
+As it’s pretty clear from the above images, the landmarks of the eye regions are
+really important to detect the Euclidean norm of the vertical and horizontal lines (which are colored
+in green). Once we evaluate these values, we just calculate the ratio between the horizontal and
+vertical line.
+After some tests, we can say that a good blinking threshold could be 5.3, in order to not stress
+so much the eye when the user is going to close them to press the chosen button.
+Let’s see now the snippet of code where the ```getBlinkingRatio()``` function is called:
+
+```python 
+            ...
+            ver_dir = (lCy + rCy) / 2
+
+            # Detect blinking
+            left_eye_ratio = getBlinkingRatio([36, 37, 38, 39, 40, 41], landmarks)
+            right_eye_ratio = getBlinkingRatio([42, 43, 44, 45, 46, 47], landmarks)
+            blinking_ratio = (left_eye_ratio + right_eye_ratio) / 2
+
+            if blinking_ratio > 5.3:
+                cv2.putText(frame, "BLINKING", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255))
+
+            ...
+```
+
+In the code wrote in the above figure, we can see how, both eyes retrieve their
+blinking ratios. The average value of these ratios will be our blinking value. In case this value will
+be greater than 5.3, which means that the user has closed his eyes, we will write the BLINKING
+word on the top left side of the frame using the function ```putText()``` available with the OpenCV
+library, just to get a graphical feedback during tests:
+
+![](preview-images/frame4.jpg)
 
 # Conclusion
 
@@ -695,3 +859,7 @@ Speech）执行，这是一个Python库和CLI工具，可与Google Translate的�
 行交互。
 
 > 该软件的开发是我学位论文的主题
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

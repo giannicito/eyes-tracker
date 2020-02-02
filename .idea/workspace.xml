@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/preview-images/center_gaze.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/centre_iris_coordinates.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/extracted_eyes.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/eyes_landmarks.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/iris_coordinates.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/left_gaze.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/left_right_eyes_landmarks.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/right_gaze.jpg" afterDir="false" />
+    <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="Adding notes into README">
+      <change afterPath="$PROJECT_DIR$/preview-images/blinking_effect.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/frame4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/monitor_calibration_with_gaze.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preview-images/vertical_landmarks.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/bin/classes/processes.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/classes/processes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/bin/frames/calibration.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/calibration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/bin/frames/keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/keyboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/bin/test.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -302,7 +301,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580649344496</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Adding notes into README">
+      <created>1580656895899</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1580656895899</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -363,18 +369,38 @@
     <option name="LAST_COMMIT_MESSAGE" value="Adding notes into README" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="344" y="54" key="CommitChangelistDialog2" timestamp="1580649343202">
+    <state x="344" y="54" key="CommitChangelistDialog2" timestamp="1580659161880">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="344" y="54" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1580649343202" />
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580649353131">
+    <state x="344" y="54" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1580659161880" />
+    <state width="768" height="160" key="GridCell.Tab.0.bottom" timestamp="1580659073314">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580649353131" />
+    <state width="768" height="160" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1580659073314" />
+    <state width="768" height="160" key="GridCell.Tab.0.center" timestamp="1580659073313">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="768" height="160" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1580659073313" />
+    <state width="768" height="160" key="GridCell.Tab.0.left" timestamp="1580659073313">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="768" height="160" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1580659073313" />
+    <state width="768" height="160" key="GridCell.Tab.0.right" timestamp="1580659073314">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="768" height="160" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1580659073314" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580656902970">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580656902970" />
     <state x="503" y="374" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580643687277">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="503" y="374" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1580643687277" />
+    <state x="603" y="207" width="837" height="550" key="find.popup" timestamp="1580658917409">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="603" y="207" width="837" height="550" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1580658917409" />
     <state x="412" y="248" key="git4idea.merge.GitPullDialog" timestamp="1580643764728">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

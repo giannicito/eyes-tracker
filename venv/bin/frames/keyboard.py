@@ -200,17 +200,17 @@ class KeyboardWindow(QWidget):
             landmarks = self.predict(gray, face)
 
             # Detect blinking
-            left_eye_ratio = processes.get_blinking_ratio([36, 37, 38, 39, 40, 41], landmarks)
-            right_eye_ratio = processes.get_blinking_ratio([42, 43, 44, 45, 46, 47], landmarks)
+            left_eye_ratio = processes.getBlinkingRatio([36, 37, 38, 39, 40, 41], landmarks)
+            right_eye_ratio = processes.getBlinkingRatio([42, 43, 44, 45, 46, 47], landmarks)
             blinking_ratio = (left_eye_ratio + right_eye_ratio) / 2
 
             # detect eye direction
-            lCx, le_bw, le_n = processes.detect_eye_direction(frame, [36, 37, 38, 39, 40, 41], landmarks, self.contrastThreshold)
-            rCx, re_bw, re_n = processes.detect_eye_direction(frame, [42, 43, 44, 45, 46, 47], landmarks, self.contrastThreshold)
+            lCx, le_bw, le_n = processes.detectEyeDirection(frame, [36, 37, 38, 39, 40, 41], landmarks, self.contrastThreshold)
+            rCx, re_bw, re_n = processes.detectEyeDirection(frame, [42, 43, 44, 45, 46, 47], landmarks, self.contrastThreshold)
             hor_dir = (lCx + rCx) / 2
 
-            lCy = processes.getEyeTopPosition([37, 38, 41, 40], landmarks)
-            rCy = processes.getEyeTopPosition([43, 44, 47, 46], landmarks)
+            lCy = processes.getEyeTopDownLooking([37, 38, 41, 40], landmarks)
+            rCy = processes.getEyeTopDownLooking([43, 44, 47, 46], landmarks)
             ver_dir = (lCy + rCy) / 2
 
             if blinking_ratio > 5.3:
