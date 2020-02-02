@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/frames/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/frames/calibration.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/calibration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/frames/keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/keyboard.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,6 +27,11 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -38,31 +39,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/venv/bin/old" />
+      <recent name="$PROJECT_DIR$/venv/bin/image" />
+      <recent name="$PROJECT_DIR$/venv/bin/windows" />
+      <recent name="$PROJECT_DIR$/venv/bin/class" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/venv/bin/image" />
       <recent name="$PROJECT_DIR$/venv/bin" />
       <recent name="$PROJECT_DIR$/venv/bin/windows" />
       <recent name="$PROJECT_DIR$/venv/bin/guifiles" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/venv/bin/old" />
-      <recent name="$PROJECT_DIR$/venv/bin/image" />
-      <recent name="$PROJECT_DIR$/venv/bin/windows" />
-      <recent name="$PROJECT_DIR$/venv/bin/class" />
-      <recent name="$PROJECT_DIR$/venv/bin" />
-    </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -135,6 +124,18 @@
         <item itemvalue="Python.main2" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -266,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575470046316</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Conclusion of the project">
+      <created>1575470381513</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1575470381513</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TodoView">
@@ -323,6 +331,20 @@
     <MESSAGE value="Sound to text added 1" />
     <MESSAGE value="Conclusion of the project" />
     <option name="LAST_COMMIT_MESSAGE" value="Conclusion of the project" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580643258618">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580643258618" />
+    <state x="412" y="248" key="git4idea.merge.GitPullDialog" timestamp="1580643189042">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="412" y="248" key="git4idea.merge.GitPullDialog/0.0.1440.900@0.0.1440.900" timestamp="1580643189042" />
+    <state x="496" y="321" key="git4idea.rebase.GitRebaseDialog" timestamp="1580643149722">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="496" y="321" key="git4idea.rebase.GitRebaseDialog/0.0.1440.900@0.0.1440.900" timestamp="1580643149722" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
