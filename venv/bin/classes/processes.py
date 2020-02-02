@@ -72,8 +72,10 @@ def detect_eye_direction(frame, eye_points, facial_landmarks, threshold_value=70
     if len(cnts) != 0:
         # find the biggest area among that one found
         c = max(cnts, key=cv2.contourArea)
+
         # evaluate the center of the contour
         M = cv2.moments(c)
+
         try:
             cX = int(M["m10"] / M["m00"])
             cY = int(M["m01"] / M["m00"])
@@ -82,7 +84,6 @@ def detect_eye_direction(frame, eye_points, facial_landmarks, threshold_value=70
             cv2.circle(eye, center, 7, (0, 255, 0), 2)
         except:
             cX = -1
-
 
         return cX, threshold_eye, eye
 

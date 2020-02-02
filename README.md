@@ -315,6 +315,305 @@ face, but as the main goal of the application, we need to extract the eyes regio
 movements. In this chapter, we will see that.
 Let’s take a look of the snippets of code that extract the eyes regions:
 
+```python
+    ...
+    faces_detected = detector(gray, 0)
+
+    if len(faces_detected) > 0:
+        face = faces_detected[0]
+
+        # faces points found by dlib library
+        landmarks = predictor(gray, face)
+        leye_points = [36, 37, 38, 39, 40, 41]
+        reye_points = [42, 43, 44, 45, 46, 47]
+
+        leftEye = getEyeRegion(frame, leye_points, landmarks)
+        rightEye = getEyeRegion(frame, reye_points, landmarks)
+        
+        cv2.imshow('Left Eye', leftEye)
+        cv2.imshow('Right Eye', rightEye)
+
+    # display the resulting frame
+    cv2.imshow('frame', frame)
+
+    ...
+```
+
+As you may have noticed, the for statement needed to analyze all the faces detected in the
+frame captured by the camera, has been substituted with an if statement. This choice has been made
+because we need to consider only one face in our application. For this the for stamen is useless.
+
+After we predict the facial landmarks, we set two arrays that stay for both eyes landmarks
+identifier. Let’s better explain their meaning with the following figure.
+
+![](preview-images/eyes_landmarks.jpg)
+
+The red points depicted in the above image represents those landmarks
+interested in the eye regions detection. ```[36, 37, 38, 39, 40, 41]``` are those useful to detect the left eye
+region, whereas ```[42, 43, 44, 45, 46, 47]``` are those useful for the right one. Made this assumptions,
+let’s focus our attention on the next snippet code, which will be that one containing the function
+needed to extract the eye.
+
+```python
+def getEyeRegion(frame, eye_points, facial_landmarks):
+    eye_region = np.array([(facial_landmarks.part(eye_points[0]).x, facial_landmarks.part(eye_points[0]).y),
+                                (facial_landmarks.part(eye_points[1]).x, facial_landmarks.part(eye_points[1]).y),
+                                (facial_landmarks.part(eye_points[2]).x, facial_landmarks.part(eye_points[2]).y),
+                                (facial_landmarks.part(eye_points[3]).x, facial_landmarks.part(eye_points[3]).y),
+                                (facial_landmarks.part(eye_points[4]).x, facial_landmarks.part(eye_points[4]).y),
+                                (facial_landmarks.part(eye_points[5]).x, facial_landmarks.part(eye_points[5]).y)], np.int32)
+
+    min_x = np.min(eye_region[:, 0])
+    max_x = np.max(eye_region[:, 0])
+    min_y = np.min(eye_region[:, 1])
+    max_y = np.max(eye_region[:, 1])
+
+    eye = frame[min_y: max_y, min_x: max_x]
+
+    return eye
+```
+
+Looking above, we can see how the eye region extraction works. Let’s explain better
+its features. First of all, we set an array containing all the six landmarks (x, y) - coordinates of
+the eye (see Figure 3.11 to better understand the meaning of these 6 landmarks) using the function
+array() included in the numpy library, which returns as output a 6x2 array. Once the coordinates
+have been set, we calculate the minimum and maximum x and y values because only in the ideal
+case we have all the 6 landmarks correctly aligned. This is an important point to take in account
+during the development of this kind of projects, because we will always have some distortion of the
+landmarks positions due to a lot of factors, first among all that we are in real cases and not in ideal
+ones.
+
+Since it is so important, I provide a real example in the next figure to explain what kind of
+operations we are going to perform due to misaligned points.
+
+![](preview-images/left_right_eyes_landmarks.jpg)
+
+From the above image, we can see how the (x, y) - coordinates retrieved by
+the 6 left eye landmarks are in different positions and are not aligned as in the ideal case. For this
+reason, we can’t just take one of the top landmarks (37 or 38) and get its y coordinate, or one of the
+bottom landmarks (40 or 41) and get its y coordinate. To calculate precisely the edges values of the
+eye, that is minimum and maximum x and y coordinate, we call the ```min()``` and ```max()``` function of the
+numpy library passing as parameter the array found before, but with all zeroes in the coordinate
+that we are not interested in. So, if we want to find the maximum value of the x coordinates, we
+pass an array with all the x coordinates set with their value, whereas all the y coordinates are set to
+0. With these values, we cut the perfect portion of the eye region avoiding other parts that might
+produce noise.
+
+![](preview-images/extracted_eyes.jpg)
+
+In the above figure, we can see that the left and right eye regions have been extracted and we can
+notice that the right eye it is brighter than the left one. This happen due to light variation inside the
+room. We will analyze and fix this problem later applying some image filtering and thresholding
+processes which will also remove those unwanted areas outside the pupil that might cause problem
+during irises detection.
+
+## 3. Iris Detection
+
+In the previous chapter, we have seen how to detect and extract the eyes regions. Now, we just
+have to find the exact location of the center of the iris. It is important to mention, that what we are
+going to get from the iris detection will be only the center x coordinate. The y coordinate of this
+evaluation, instead, it is useless to know because, if the person is looking up or down, most likely
+the y coordinate will not be affected by a relevant movement. This problem will be handled and
+explained in the next chapter.
+
+In the following image, we will see the part of the eye that we need to detect with the
+evaluation of the center coordinates of this area.
+
+![](preview-images/iris_coordinates.jpg)
+
+This is the result that we aspire to; find the exact coordinates of the
+center of the iris. Using some image thresholding, morphological transformations and filtering
+processes we will see how to get an acceptable result, because we have to consider that some noise
+will be applied to the eye frames due to different brightness and pixels resolution.
+
+To understand how make this happen, let’s immediately look at the first portion of the
+function code that will produce this as output: the next snippet code, which will be that one containing the function
+needed to extract the eye.
+
+```python
+def getEyeRegion(frame, eye_points, facial_landmarks, threshold_value=70):
+    ...
+    eye = frame[min_y: max_y, min_x: max_x]
+
+    gray_eye = cv2.cvtColor(eye, cv2.COLOR_BGR2GRAY)
+
+    # image filtering
+    gray_eye = cv2.GaussianBlur(gray_eye, (11, 11), 0)
+    gray_eye = cv2.bilateralFilter(gray_eye, 11, 11, 11)
+
+    if threshold_value % 2 == 0:
+        threshold_value += 1
+
+    threshold_eye = cv2.adaptiveThreshold(gray_eye, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, threshold_value, 10)
+
+    kernel = np.ones((3, 3), np.uint8)
+
+    #perform erosion
+    threshold_eye = cv2.erode(threshold_eye, kernel, iterations=1)
+
+    kernel = np.ones((7, 7), np.uint8)
+    #removing noise
+    threshold_eye = cv2.morphologyEx(threshold_eye, cv2.MORPH_CLOSE, kernel)
+
+    # inverting the colors, white to black and viceversa
+    th, threshold_eye = cv2.threshold(threshold_eye, 127, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+    
+    ...
+```
+
+In this first snippet of code of the function ```getEyeRegion()```, that was
+implemented in our project in the previous chapter, we take the eye frame region already captured
+and we start working on it. We firstly convert the eye region in a greyscale image, in order to use
+thresholding and smoothing functionalities.
+
+As we have said before, images can contain different types of noise, especially because of the
+source, in our case the computer camera. Image smoothing techniques help in reducing the noise
+and in OpenCV, image smoothing (also called blurring) could be done with the function
+```GaussianBlur()```. Gaussian filters have the properties of having no overshoot to a step function input
+while minimizing the rise and fall time. In terms of image processing, any sharp edges in images
+are smoothed while minimizing too much blurring. Let’s analyze the parameters passed to the
+function. The first one is the grayscaled eye frame, the second one, instead, is the Gaussian Kernel
+size ([height, width]). As you will have probably noticed, the height and width must be odd
+numbers and they may have different values. The third parameter is the Kernel standard deviation
+along x axis (horizontal direction), set to 0.
+
+By using the Gaussian filter to smooth an image, we not only dissolve noise, but also smooth
+edges, which make edges less sharper, or even disappear. To solve this problem, we can use a filter
+called Bilateral filter, which is an advanced version of Gaussian filter. It introduces another weight
+that represents how two pixels can be similar to one another in value, and by considering both
+weights in image, it can keep edges sharp while blurring image. I implemented this filter just after
+the Gaussian one in order to reveal some edges on the blurred eye frame.
+
+Now that we have probably removed most of the noise in the image, we need to threshold it.
+Since the eye frame may be affected by different lighting, we have to use an adaptive threshold to
+ensure that the result is what we expect. The adaptive method chosen for ```adaptiveThreshold()```
+function is the Gaussian one, whereas the block size of the neighborhood is set to 10. The threshold
+value is passed from a slider inside the GUI in order that the user, or someone for him, can set it to
+fit in a better way his necessity and adapt the software to the surrounding environment. For this
+reason, I added an if statement before the thresholding process in order to be sure that the value
+passed to the function is odd since the function takes only odd threshold values.
+
+Once the thresholding process is over, we just have to perform some morphological
+transformations to remove the remaining noise. We first apply an erosion transformation in order to
+restrict the boundaries of the foreground object. The kernel I chose to perform this operation has a
+3x3 size, which means that if all the pixels under this matrix are 1, the pixel takes in account will
+be considered 1, otherwise it will be eroded (set to 0). After we have eroded the image, we apply a
+closing morphological transformation, which means that we dilate the image again removing other
+small noise areas left. This time, the kernel I chose has a 7x7 size, a bit bigger than the previous
+one chose for the erosion transformation.
+
+In the last line of this snippet of code, we inverted black and white color into the iris detected
+image which is the content of the threshold_eye variable on which we have worked until this
+moment. This operation moves the white color from the background to the foreground, whereas the
+black color from the foreground to the background. Let's move ahead in the code to better
+understand why we have performed this operation.
+
+```python    
+    ...
+
+    # inverting the colors, white to black and viceversa
+    th, threshold_eye = cv2.threshold(threshold_eye, 127, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+    cnts, hierarchy = cv2.findContours(threshold_eye, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    if len(cnts) != 0:
+        # find the biggest area among that one found
+        c = max(cnts, key=cv2.contourArea)
+
+        # evaluate the center of the contour
+        M = cv2.moments(c)
+
+        try:
+            cX = int(M["m10"] / M["m00"])
+            cY = int(M["m01"] / M["m00"])
+
+            center = (int(cX), int(cY))
+            cv2.circle(eye, center, 7, (0, 255, 0), 2)
+        except:
+            cX = -1
+
+        return cX, threshold_eye, eye
+
+    else:
+        return -1, threshold_eye, eye
+```
+
+Shown in the above snippet of code above, we found the last part of our function used
+to detect and evaluate the center of the iris. Everything in this portion of code, as you have
+probably noticed, is based on the ```findContours()``` function. This function is the reason why we have
+inverted the colors of our iris frame. As we have already said during the theoretical chapters about
+the contours, they need a black background and a white foreground object to detect correctly the
+contours. Let’s see better how this code works.
+
+In the ```findContours()``` function I chose, as the contours retrieval mode, the
+```CV_RETR_EXTERNAL``` one, which retrieves only the extreme outer contours of the object. As the
+approximation method, instead, I set the ```CV_CHAIN_APPROX_SIMPLE``` one which is useful for
+compresses horizontal, vertical, and diagonal segments and leaves only their end points. They will
+be enough to evaluate the center of the iris.
+To avoid encountering any mistakes due to bad iris detection, we check if the contours found
+are not empty. Even if more than one contour is detected, no problem, later in the code we will take
+only the bigger one that will most likely be the iris. This can be done using the function ```max()``` with
+a key set on ```cv2.contourArea``` in order to specify that we are working with contours.
+Once we get the biggest contour, using moments included in OpenCV library, we are able to
+evaluate the (Cx, Cy) - coordinates. As we already mentioned in the theoretical chapter on image
+moments the centroid of the image detected is calculated in the following way:
+
+![](preview-images/centre_iris_coordinates.png)
+
+We follow exactly the above formulas to retrieves the (Cx, Cy) - coordinates.
+
+The last thing left is to draw a green circle in the center of the iris in order to provide a visual
+feedback to the user that are using the software. OpenCV library provide a circle() function that fit
+perfectly our expectations.
+
+Now that the function has been explained, we call it from the main loop statement in the
+following way:
+
+```python    
+        ...
+        landmarks = predictor(gray, face)
+        leye_points = [36, 37, 38, 39, 40, 41]
+        reye_points = [42, 43, 44, 45, 46, 47]
+
+        leftEye = getEyeRegion(frame, leye_points, landmarks)
+        rightEye = getEyeRegion(frame, reye_points, landmarks)
+        
+        # detect eye direction
+        lCx, bwLeftEye, leftEye = getEyeRegion(frame, leye_points, landmarks)
+        rCx, bwRightEye, rightEye = getEyeRegion(frame, reye_points, landmarks)
+                
+        cv2.imshow('Thresholded Left Eye', bwLeftEye)
+        cv2.imshow('Thresholded Right Eye', bwRightEye)
+
+        cv2.imshow('Left Eye', leftEye)
+        cv2.imshow('Right Eye', rightEye)
+
+        ...
+```
+
+In the above snippet of code, we can see the lines of code needed for each eye to
+detect its iris and then show the results on the screen. For each eye, the first parameter returned by
+the ```getEyeRegion()``` function will be the center horizontal coordinate of the detected iris, the second
+one will be the black and white iris frame and the last one will be the eye frame with the green
+circle around the iris center. Let’s see what we got from the above operations:
+
+* Left and Right eye looking on the center of the screen
+![](preview-images/center_gaze.jpg)
+
+* Left and Right eye looking on the left of the screen
+![](preview-images/left_gaze.jpg)
+
+* Left and Right eye looking on the right of the screen
+![](preview-images/right_gaze.jpg)
+
+From the above figures, we can see how the iris is correctly
+detected even if its shape sometimes may be deformed due to thresholding, filtering and smoothing
+operations losses.
+
+
+
+
+
+
 
 # Conclusion
 
