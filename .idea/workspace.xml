@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="Adding notes into README">
-      <change afterPath="$PROJECT_DIR$/preview-images/blinking_effect.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/frame4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/monitor_calibration_with_gaze.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/vertical_landmarks.jpg" afterDir="false" />
+    <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/classes/processes.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/classes/processes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/frames/calibration.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/calibration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/frames/keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/bin/frames/keyboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/bin/test.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -308,7 +300,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580656895899</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="release v.1">
+      <created>1580660375528</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1580660375528</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TodoView">
@@ -366,13 +365,14 @@
     <MESSAGE value="Conclusion of the project" />
     <MESSAGE value="Add README file" />
     <MESSAGE value="Adding notes into README" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding notes into README" />
+    <MESSAGE value="release v.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="release v.1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="344" y="54" key="CommitChangelistDialog2" timestamp="1580659161880">
+    <state x="344" y="54" key="CommitChangelistDialog2" timestamp="1580660375038">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="344" y="54" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1580659161880" />
+    <state x="344" y="54" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1580660375038" />
     <state width="768" height="160" key="GridCell.Tab.0.bottom" timestamp="1580659073314">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -389,10 +389,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="768" height="160" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1580659073314" />
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580656902970">
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580660377112">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580656902970" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580660377112" />
     <state x="503" y="374" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580643687277">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

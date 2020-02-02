@@ -1,8 +1,7 @@
 # Non-intrusive eye tracking application in helping paralyzed people communicate
 
-Watch the video:
 [![Watch the video](https://img.youtube.com/vi/6mvg7_E7_cU/maxresdefault.jpg)](https://youtu.be/6mvg7_E7_cU)
-
+Click on the above image to see watch an example :point_up:
 
 Nowadays, there are diseases that weaken the person to the point of making them totally paralyzed, making them unable to communicate with those persons that are around because perhaps illness or paralysis makes impossible for them to produce sounds. This is why I thought to develop a software which read the movement of their eyes, making these people "autonomous" even if only communicating some of their needs or thoughts. The diseases that inspires me for the realization of this software are mainly the ALS (Amyotrophic Lateral Sclerosis) and the Rett Syndrome. For these, but also for many other pathologies, there are already devices similar to the one proposed in my thesis and in this project that allow communication through eyes movements but these are made available to very few patients or are really expensive.
 
