@@ -861,4 +861,4 @@ Speech）执行，这是一个Python库和CLI工具，可与Google Translate的�
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
