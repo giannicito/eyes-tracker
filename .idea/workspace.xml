@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb4a97cb-7f1b-4aaa-b5f8-6552c8292f79" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/preview-images/calibration.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/calibration_points.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/detected_face.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/facial_landmarks.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/frame1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/frame2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/frame3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/gaze_areas.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/preview-images/keyboard_window.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/pip-selfcheck.json" beforeDir="false" afterPath="$PROJECT_DIR$/venv/pip-selfcheck.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -290,7 +279,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580643284645</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Adding notes into README">
+      <created>1580649239276</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1580649239276</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TodoView">
@@ -347,17 +343,18 @@
     <MESSAGE value="Sound to text added 1" />
     <MESSAGE value="Conclusion of the project" />
     <MESSAGE value="Add README file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add README file" />
+    <MESSAGE value="Adding notes into README" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding notes into README" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="344" y="54" key="CommitChangelistDialog2" timestamp="1580643284279">
+    <state x="344" y="54" key="CommitChangelistDialog2" timestamp="1580649237753">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="344" y="54" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1580643284279" />
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580643298262">
+    <state x="344" y="54" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1580649237753" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1580649247813">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580643298262" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580649247813" />
     <state x="503" y="374" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580643687277">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

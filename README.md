@@ -11,6 +11,75 @@ The application start with a calibration window in order to get and the elaborat
 
 > This software was developed as a topic of my degree thesis.
 
+# Application
+
+## 1. Overview
+
+I will show you how the application works and how the user can
+interact with it. The application is divided in two windows, the Calibration and the Keyboard ones.
+
+The Calibration window allows the user to calibrate the screen border values using his gaze. In this
+window of the application the user, or someone for him, may also adjust and adapt the iris
+detection based on the surrounding environment. 
+
+The Keyboard window represents the
+main scene of the application. In this window, the user, using his eyes, will interact with the application moving a
+cursor among the keyboard tiles and when he will have composed a sentence, blinking his yes, he will press a button to make the computer reproduce the converted text by a voice.
+
+## 2. Calibration Window
+
+Let’s start from the first window which appears when the application is launched.
+![](preview-images/calibration.jpg)
+
+In the above screenshot of the Calibration Window, it is depicted the way of the
+graphic is proposed to the user. In the top side of the window, we have the eyes feedback. Here the
+user can see if his eyes are correctly detected and in negative case moves the contrast threshold
+slider to adapt the detection on the surrounding environment.
+
+Once the eyes are correctly detected, pressing the button Start Calibration the calibration
+process will start. As mentioned before and pictured in the following figure, will be displayed 9
+points, one at a time.
+
+![](preview-images/calibration_points.jpg)
+
+Every target point in Figure 4.2 will pass 3 stages. The first one, colored red, means that the
+user has to prepare and move is gaze to that point, because it will start store the gaze (x, y) - coordinates
+soon. The second stage, colored yellow, means that the application is storing
+coordinates. After 15 frames, we had the last stage, colored green, where the application get the
+average (x, y) - coordinates from the previous data stored and save them. This 3 stages process
+is handled for each of the 9 points needed to find the screen and gaze boundaries to use in the next
+window. Once the calibration process terminates, the user may procede to the next window
+pressing the Start Application button.
+
+## 3. Keyboard Window
+
+In this last section we will see the main application window, the one which let
+the user able to communicate using the computer. In this window the user will move his eyes in
+any direction he wants (up, down, left or right) and a cursor will move on the tiles of the keyboard.
+The following figure shows the areas where the user has to look to move the cursor up, down, left
+or right.
+
+![](preview-images/gaze_areas.jpg)
+
+It will be enough for the user to move his gaze in one of these areas and the cursor will follow
+it. In case the user will focus his gaze on the center area, the cursor will not move. The movement
+of the cursor is performed only if the gaze direction doesn’t change for 7 frames. This means that,
+if the user at the sixth frame moves its gaze from left to right, for example, no cursor movement
+will be performed.
+
+Detecting if the user eyes are blinking, will help us to know when
+the user is keeping his eye close for a certain amount of time. To press the button, the user has to
+keep the eyes closed for 5 continuous frames (around 1 second more or less). When the user will
+want to reproduce the text, it will be enough to press the microphone button and wait a short time
+needed from the gTTS library to convert the text into voice.
+Let’s now see how the application window looks like:
+
+![](preview-images/keyboard_window.jpg)
+
+In the above screenshot of the Application window, we can see the moment when
+the user terminates to compose his sentence and moves the cursor on the microphone button to
+start converting text to speech.
+
 # Code Implementation
 
 ## 1. Capturing Camera Frames
@@ -246,77 +315,8 @@ face, but as the main goal of the application, we need to extract the eyes regio
 movements. In this chapter, we will see that.
 Let’s take a look of the snippets of code that extract the eyes regions:
 
-# Application
 
-## 1. Overview
-
-I will show you how the application works and how the user can
-interact with it. The application is divided in two windows, the Calibration and the Keyboard ones.
-
-The Calibration window allows the user to calibrate the screen border values using his gaze. In this
-window of the application the user, or someone for him, may also adjust and adapt the iris
-detection based on the surrounding environment. 
-
-The Keyboard window represents the
-main scene of the application. In this window, the user, using his eyes, will interact with the application moving a
-cursor among the keyboard tiles and when he will have composed a sentence, blinking his yes, he will press a button to make the computer reproduce the converted text by a voice.
-
-## 2. Calibration Window
-
-Let’s start from the first window which appears when the application is launched.
-![](preview-images/calibration.jpg)
-
-In the above screenshot of the Calibration Window, it is depicted the way of the
-graphic is proposed to the user. In the top side of the window, we have the eyes feedback. Here the
-user can see if his eyes are correctly detected and in negative case moves the contrast threshold
-slider to adapt the detection on the surrounding environment.
-
-Once the eyes are correctly detected, pressing the button Start Calibration the calibration
-process will start. As mentioned before and pictured in the following figure, will be displayed 9
-points, one at a time.
-
-![](preview-images/calibration_points.jpg)
-
-Every target point in Figure 4.2 will pass 3 stages. The first one, colored red, means that the
-user has to prepare and move is gaze to that point, because it will start store the gaze (x, y) - coordinates
-soon. The second stage, colored yellow, means that the application is storing
-coordinates. After 15 frames, we had the last stage, colored green, where the application get the
-average (x, y) - coordinates from the previous data stored and save them. This 3 stages process
-is handled for each of the 9 points needed to find the screen and gaze boundaries to use in the next
-window. Once the calibration process terminates, the user may procede to the next window
-pressing the Start Application button.
-
-## 3. Keyboard Window
-
-In this last section we will see the main application window, the one which let
-the user able to communicate using the computer. In this window the user will move his eyes in
-any direction he wants (up, down, left or right) and a cursor will move on the tiles of the keyboard.
-The following figure shows the areas where the user has to look to move the cursor up, down, left
-or right.
-
-![](preview-images/gaze_areas.jpg)
-
-It will be enough for the user to move his gaze in one of these areas and the cursor will follow
-it. In case the user will focus his gaze on the center area, the cursor will not move. The movement
-of the cursor is performed only if the gaze direction doesn’t change for 7 frames. This means that,
-if the user at the sixth frame moves its gaze from left to right, for example, no cursor movement
-will be performed.
-
-Detecting if the user eyes are blinking, will help us to know when
-the user is keeping his eye close for a certain amount of time. To press the button, the user has to
-keep the eyes closed for 5 continuous frames (around 1 second more or less). When the user will
-want to reproduce the text, it will be enough to press the microphone button and wait a short time
-needed from the gTTS library to convert the text into voice.
-Let’s now see how the application window looks like:
-
-![](preview-images/keyboard_window.jpg)
-
-In the above screenshot of the Application window, we can see the moment when
-the user terminates to compose his sentence and moves the cursor on the microphone button to
-start converting text to speech.
-
-
-## 4. Conclusion
+# Conclusion
 
 In this study, I propose a non-intrusive gaze tracker which can detect and track a user’s face,
 eyes and irises using the data passed from a common computer camera. The system’s face tracking
